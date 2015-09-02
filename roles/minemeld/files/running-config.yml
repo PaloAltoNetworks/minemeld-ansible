@@ -1,0 +1,92 @@
+fabric:
+  class: minemeld.fabric.AMQP
+  args: {}
+
+mgmtbus:
+  class: AMQP
+  args: {}
+
+FTs:
+  inboundaggregator:
+    args:
+      infilters:
+        - name: accept inbound IPv4
+          conditions:
+            - type == 'IPv4'
+            - direction == 'inbound'
+          actions:
+            - accept
+        - name: drop all
+          actions:
+            - drop
+    class: minemeld.ft.ipop.AggregateIPv4FT
+    output: true
+    inputs:
+      - spamhaus_DROP
+      - spamhaus_EDROP
+      - dshield_blocklist
+  outboundaggregator:
+    args:
+      infilters:
+        - name: accept outbound IPv4
+          conditions:
+            - type == 'IPv4'
+            - direction == 'outbound'
+          actions:
+            - accept
+        - name: drop all
+          actions:
+            - drop
+    class: minemeld.ft.ipop.AggregateIPv4FT
+    output: true
+    inputs:
+      - zeustracker_badips
+  inboundfeed:
+    args: {}
+    class: minemeld.ft.redis.RedisSet
+    inputs:
+      - inboundaggregator
+    output: false
+  outboundfeed:
+    args: {}
+    class: minemeld.ft.redis.RedisSet
+    inputs:
+      - outboundaggregator
+    output: false
+  dshield_blocklist:
+    args:
+      interval: 600
+    class: minemeld.ft.dshield.DshieldBlockList
+    output: true
+  zeustracker_badips:
+    args:
+      source_name: https://zeustracker.abuse.ch/blocklist.php?download=badips
+      attributes:
+        type: IPv4
+        direction: outbound
+      cchar: "#"
+      url: https://zeustracker.abuse.ch/blocklist.php?download=badips
+    class: minemeld.ft.http.HttpFT
+    output: true
+  spamhaus_DROP:
+    args:
+      source_name: http://www.spamhaus.org/drop/drop.txt
+      attributes:
+        type: IPv4
+        direction: inbound
+      cchar: ;
+      split_char: ;
+      url: http://www.spamhaus.org/drop/drop.txt
+    class: minemeld.ft.http.HttpFT
+    output: true
+  spamhaus_EDROP:
+    args:
+      source_name: http://www.spamhaus.org/drop/edrop.txt
+      attributes:
+        type: IPv4
+        direction: inbound
+      cchar: ;
+      split_char: ;
+      url: http://www.spamhaus.org/drop/edrop.txt
+    class: minemeld.ft.http.HttpFT
+    output: true

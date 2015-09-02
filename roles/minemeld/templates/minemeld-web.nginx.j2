@@ -1,0 +1,42 @@
+upstream app_server {
+    server 127.0.0.1:5000 fail_timeout=0;
+}
+
+server {
+    listen 80 default;
+    server_name _;
+
+    keepalive_timeout 5;
+
+    # path for static files
+    root {{ www_directory }};
+
+    # first files then proxy to flask app
+    location / {
+        try_files $uri @proxy_to_app;
+    }
+
+    # for SSE
+    location /status/events {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header Connection '';
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_buffering off;
+        chunked_transfer_encoding off;
+        proxy_cache off;
+        proxy_read_timeout 120s;
+
+        proxy_pass   http://app_server;        
+    }
+
+    # for content that should be handled by mw flask app
+    location @proxy_to_app {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        proxy_pass   http://app_server;
+    }
+}

@@ -1,0 +1,11 @@
+### BEGIN INIT INFO
+# Provides:          supervisor
+# Required-Start:    $remote_fs $network $named rabbitmq-server redis-server
+# Required-Stop:     $remote_fs $network $named rabbitmq-server redis-server
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop supervisor
+# Description:       Start/stop supervisor daemon and its configured
+#                    subprocesses.
+### END INIT INFO
+

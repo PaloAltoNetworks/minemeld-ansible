@@ -1,0 +1,10 @@
+[program:minemeld-core]
+environment=PATH="{{ venv_directory }}/bin",PYTHONPATH="{{ repo_directory }}",HOME="{{ data_directory }}"
+command={{ repo_directory }}/mm-run.py --verbose {{ config_directory }}
+directory={{ data_directory }}
+user=minemeld
+stopwaitsecs=60
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/log/minemeld-core.log
