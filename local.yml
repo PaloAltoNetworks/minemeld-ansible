@@ -14,6 +14,8 @@
   pre_tasks:
   - name: minemeld group
     group: name=minemeld state=present
+  - name: my user
+    user: name={{my_user}} group=minemeld
   - name: minemeld user
     user:
       name: minemeld
