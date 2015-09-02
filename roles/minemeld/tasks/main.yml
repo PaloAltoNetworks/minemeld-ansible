@@ -6,6 +6,8 @@
   apt: name=rabbitmq-server state=present
 - name: python2.7-dev
   apt: name=python2.7-dev state=present
+- name: redis-server
+  apt: name=redis-server state=present
 - name: supervisor
   apt: name=supervisor state=present
 - name: minemeld-core repo
