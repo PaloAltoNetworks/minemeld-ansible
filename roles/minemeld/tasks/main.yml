@@ -4,8 +4,10 @@
   apt: name=nginx state=present
 - name: rabbitmq-server
   apt: name=rabbitmq-server state=present
-- name: python2.7-dev
-  apt: name=python2.7-dev state=present
+- name: g++
+  apt: name=g++ state=present
+- name: libleveldb-dev
+  apt: name=liblevel-db state=present
 - name: redis-server
   apt: name=redis-server state=present
 - name: supervisor
