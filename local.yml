@@ -14,8 +14,14 @@
   pre_tasks:
   - name: minemeld group
     group: name=minemeld state=present
-  - name: my user
-    user: name={{ansible_user_id}} group=minemeld
+  - name: current user
+    command: whoami
+    sudo: no
+    register: my_user
+  - name: show current user
+    debug: msg="current user: {{my_user}}"
+  - name: add my_user to group
+    user: name={{my_user}} group=minemeld
   - name: minemeld user
     user:
       name: minemeld
