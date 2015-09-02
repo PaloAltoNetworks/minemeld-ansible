@@ -7,7 +7,7 @@
 - name: g++
   apt: name=g++ state=present
 - name: libleveldb-dev
-  apt: name=liblevel-db state=present
+  apt: name=libleveldb-dev state=present
 - name: redis-server
   apt: name=redis-server state=present
 - name: supervisor
