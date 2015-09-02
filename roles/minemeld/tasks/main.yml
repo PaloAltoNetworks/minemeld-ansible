@@ -23,13 +23,13 @@
     - restart minemeld-core
     - restart minemeld-web
 - name: repo permissions
-  file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group=minemeld
+  file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}"
 - name: virtualenv
   pip: name=virtualenv
 - name: minemeld virtualenv
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
 - name: virtualenv permissions
-  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld
+  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}"
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
