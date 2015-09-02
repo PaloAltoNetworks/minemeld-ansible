@@ -18,7 +18,8 @@
     clone: yes
     dest: "{{repo_directory}}"
     version: develop
-  sudo: no
+  become: yes
+  become_user: minemeld
   notify: 
     - restart minemeld-core
     - restart minemeld-web
@@ -26,6 +27,8 @@
   pip: name=virtualenv
 - name: minemeld virtualenv
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
+  become: yes
+  become_user: minemeld
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
