@@ -19,9 +19,9 @@
     sudo: no
     register: my_user
   - name: show current user
-    debug: msg="current user {{my_user}}"
+    debug: msg="current user {{my_user.stdout}}"
   - name: add my_user to group
-    user: name={{my_user}} group=minemeld
+    user: name={{my_user.stdout}} group=minemeld
   - name: minemeld user
     user:
       name: minemeld
