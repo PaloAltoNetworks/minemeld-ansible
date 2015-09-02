@@ -44,7 +44,7 @@
     dest: "{{config_directory}}/running-config.yml"
     src: running-config.yml
     owner: minemeld
-    group: minemeld
+    group: "{{my_group.stdout}}"
     mode: 0644
 - name: minemeld-web config
   copy:
@@ -52,7 +52,7 @@
     dest: "{{config_directory}}/wsgi.yml"
     src: wsgi.yml
     owner: minemeld
-    group: minemeld
+    group: "{{my_group.stdout}}"
     mode: 0644
 - name: supervisor minemeld-core program
   template:
