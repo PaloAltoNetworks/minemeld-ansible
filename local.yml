@@ -21,7 +21,7 @@
   - name: show current user
     debug: msg="current user {{my_user.stdout}}"
   - name: add my_user to group
-    user: name={{my_user.stdout}} groups=minemeld
+    user: name={{my_user.stdout}} groups=minemeld append=yes
   - name: minemeld user
     user:
       name: minemeld
