@@ -5,7 +5,7 @@
   service: name=nginx state=restarted
 - name: supervisor insserv config
   command: insserv -o supervisor
-- name: start minemeld-core
+- name: restart minemeld-core
   supervisorctl: name=minemeld-core state=restarted
-- name: start minemeld-web
+- name: restart minemeld-web
   supervisorctl: name=minemeld-web state=restarted
