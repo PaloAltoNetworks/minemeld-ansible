@@ -18,7 +18,8 @@
     user:
       name: minemeld
       group: minemeld
-      home: "{{data_directory}}" 
+      home: "{{data_directory}}"
+      createhome: no
       shell: "/usr/sbin/nologin"
   - name: main directory
     file: state=directory path="{{main_directory}}" owner=minemeld group=minemeld
