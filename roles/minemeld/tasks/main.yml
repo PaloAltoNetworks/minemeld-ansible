@@ -18,6 +18,7 @@
     clone: yes
     dest: "{{repo_directory}}"
     version: develop
+  sudo: no
   notify: 
     - restart minemeld-core
     - restart minemeld-web
