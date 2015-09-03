@@ -78,6 +78,9 @@
     group: root
     mode: 0644
   notify: restart nginx
+- name: delete nginx default
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: restart nginx
 - name: supervisor insserv config
   template:
     src: supervisor.insserv.j2
