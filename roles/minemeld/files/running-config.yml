@@ -1,12 +1,4 @@
-fabric:
-  class: minemeld.fabric.AMQP
-  args: {}
-
-mgmtbus:
-  class: AMQP
-  args: {}
-
-FTs:
+nodes:
   inboundaggregator:
     args:
       infilters:
