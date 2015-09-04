@@ -1,6 +1,6 @@
 nodes:
   inboundaggregator:
-    args:
+    config:
       infilters:
         - name: accept inbound IPv4
           conditions:
@@ -11,14 +11,14 @@ nodes:
         - name: drop all
           actions:
             - drop
-    class: minemeld.ft.ipop.AggregateIPv4FT
+    class: AggregatorIPv4
     output: true
     inputs:
       - spamhaus_DROP
       - spamhaus_EDROP
       - dshield_blocklist
   outboundaggregator:
-    args:
+    config:
       infilters:
         - name: accept outbound IPv4
           conditions:
@@ -29,39 +29,39 @@ nodes:
         - name: drop all
           actions:
             - drop
-    class: minemeld.ft.ipop.AggregateIPv4FT
+    class: AggregatorIPv4
     output: true
     inputs:
       - zeustracker_badips
   inboundfeed:
-    args: {}
-    class: minemeld.ft.redis.RedisSet
+    config: {}
+    class: RedisSet
     inputs:
       - inboundaggregator
     output: false
   outboundfeed:
-    args: {}
-    class: minemeld.ft.redis.RedisSet
+    config: {}
+    class: RedisSet
     inputs:
       - outboundaggregator
     output: false
   dshield_blocklist:
-    args:
+    config:
       interval: 600
-    class: minemeld.ft.dshield.DshieldBlockList
+    class: DshieldBlockList
     output: true
   zeustracker_badips:
-    args:
+    config:
       source_name: https://zeustracker.abuse.ch/blocklist.php?download=badips
       attributes:
         type: IPv4
         direction: outbound
       cchar: "#"
       url: https://zeustracker.abuse.ch/blocklist.php?download=badips
-    class: minemeld.ft.http.HttpFT
+    class: HTTP
     output: true
   spamhaus_DROP:
-    args:
+    config:
       source_name: http://www.spamhaus.org/drop/drop.txt
       attributes:
         type: IPv4
@@ -69,10 +69,10 @@ nodes:
       cchar: ;
       split_char: ;
       url: http://www.spamhaus.org/drop/drop.txt
-    class: minemeld.ft.http.HttpFT
+    class: HTTP
     output: true
   spamhaus_EDROP:
-    args:
+    config:
       source_name: http://www.spamhaus.org/drop/edrop.txt
       attributes:
         type: IPv4
@@ -80,5 +80,5 @@ nodes:
       cchar: ;
       split_char: ;
       url: http://www.spamhaus.org/drop/edrop.txt
-    class: minemeld.ft.http.HttpFT
+    class: HTTP
     output: true
