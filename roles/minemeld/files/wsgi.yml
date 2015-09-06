@@ -1,6 +1,8 @@
 # this should be commented in production !
 DEBUG: true
 
+USERS_DB: minemeld.htpasswd
+
 FEEDS:
   - inboundfeed
   - outboundfeed

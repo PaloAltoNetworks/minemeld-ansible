@@ -54,6 +54,14 @@
     owner: minemeld
     group: "{{my_group.stdout}}"
     mode: 0644
+- name: minemeld-web users
+  copy:
+    force: no
+    dest: "{{config_directory}}/minemeld.htpasswd"
+    src: minemeld.htpasswd
+    owner: minemeld
+    group: "{{my_group.stdout}}"
+    mode: 0644
 - name: supervisor minemeld-core program
   template:
     src: minemeld-core.supervisord.j2
