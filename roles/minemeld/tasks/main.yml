@@ -99,7 +99,7 @@
     group: root
     mode: 0644
   notify: supervisor insserv config
-  - name: collectd config
+- name: collectd config
   template:
     src: collectd.conf.j2
     dest: /etc/collectd/collectd.conf
