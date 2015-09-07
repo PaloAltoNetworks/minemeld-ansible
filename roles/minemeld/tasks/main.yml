@@ -12,6 +12,8 @@
   apt: name=redis-server state=present
 - name: supervisor
   apt: name=supervisor state=present
+- name: collectd-core
+  apt: name=collectd-core state=present
 - name: minemeld-core repo
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
@@ -97,4 +99,19 @@
     group: root
     mode: 0644
   notify: supervisor insserv config
-
+  - name: collectd config
+  template:
+    src: collectd.conf.j2
+    dest: /etc/collectd/collectd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart collectd
+- name: collectd types
+  template:
+    src: minemeld_types.db.j2
+    dest: /etc/collectd/minemeld_types.db
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart collectd

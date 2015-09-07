@@ -44,6 +44,8 @@
     service: name=nginx state=started
   - name: start supervisor
     service: name=supervisor state=started
+  - name: start collectd
+    service: name=collectd state=started
   - name: start minemeld-core
     supervisorctl: name=minemeld-core state=started
   - name: start minemeld-web

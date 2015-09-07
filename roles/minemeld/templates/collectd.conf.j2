@@ -1,0 +1,38 @@
+BaseDir "/var/lib/collectd/rrd"
+TypesDB "/usr/share/collectd/types.db"
+TypesDB "/etc/collectd/minemeld_types.db"
+
+Interval 60.0
+
+LoadPlugin cpu
+LoadPlugin load
+LoadPlugin unixsock
+LoadPlugin logfile
+LoadPlugin rrdtool
+
+<LoadPlugin df>
+    Interval 3600
+</LoadPlugin>
+<Plugin df>
+    ValuesPercentage true
+</Plugin>
+
+<Plugin unixsock>
+    SocketFile "/var/run/collectd.sock"
+    SocketGroup "{{my_group.stdout}}"
+    SocketPerms "0770"
+    DeleteSocket false
+</Plugin>
+
+<Plugin "logfile">
+  LogLevel "info"
+  File "/var/log/collectd.log"
+  Timestamp true
+</Plugin>
+
+<Plugin "rrdtool">
+  DataDir "/var/lib/collectd/rrd"
+  CacheFlush 120
+  WritesPerSecond 50
+</Plugin>
+
