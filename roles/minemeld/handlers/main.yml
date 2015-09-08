@@ -9,3 +9,6 @@
   supervisorctl: name=minemeld-core state=restarted
 - name: restart minemeld-web
   supervisorctl: name=minemeld-web state=restarted
+- name: restart collectd
+  service: name=collectd state=restarted
+

@@ -13,7 +13,7 @@
 
   pre_tasks:
   - name: current primary group
-    command: id -g
+    command: id -gn
     sudo: no
     register: my_group
   - name: show current group

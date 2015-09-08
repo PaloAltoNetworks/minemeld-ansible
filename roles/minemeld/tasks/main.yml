@@ -27,13 +27,13 @@
     - restart minemeld-core
     - restart minemeld-web
 - name: repo permissions
-  file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 - name: virtualenv
   pip: name=virtualenv
 - name: minemeld virtualenv
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
 - name: virtualenv permissions
-  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
@@ -101,7 +101,7 @@
     group: root
     mode: 0644
   notify: supervisor insserv config
-  - name: collectd config
+- name: collectd config
   template:
     src: collectd.conf.j2
     dest: /etc/collectd/collectd.conf
