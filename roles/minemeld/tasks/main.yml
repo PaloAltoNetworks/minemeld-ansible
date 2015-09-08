@@ -14,6 +14,8 @@
   apt: name=supervisor state=present
 - name: collectd-core
   apt: name=collectd-core state=present
+- name: rrdtool dev
+  apt: name=librrd-dev state=present
 - name: minemeld-core repo
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
