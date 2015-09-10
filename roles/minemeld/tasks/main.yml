@@ -24,8 +24,11 @@
     version: develop
   sudo: no
   notify: 
-    - restart minemeld-core
-    - restart minemeld-web
+    - stop minemeld-core
+    - stop minemeld-web
+    - clean git repo
+    - start minemeld-core
+    - start minemeld-web
 - name: repo permissions
   file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 - name: virtualenv
