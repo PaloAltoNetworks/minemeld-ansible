@@ -23,10 +23,12 @@
     dest: "{{repo_directory}}"
     version: develop
   sudo: no
-  notify: 
+  notify:
+    - stop rabbitmq-server
     - stop minemeld-core
     - stop minemeld-web
     - cleanup git repo
+    - start rabbitmq-server
     - start minemeld-core
     - start minemeld-web
 - name: repo permissions
