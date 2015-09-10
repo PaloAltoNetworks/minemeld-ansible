@@ -8,15 +8,15 @@
   command: git clean -f -d
   args:
     chdir: "{{ repo_directory }}"
+- name: restart supervisor
+  service: name=supervisor state=restarted
+  ignore_errors: yes
 - name: start rabbitmq-server
   service: name=rabbitmq-server state=started
 - name: start minemeld-core
   supervisorctl: name=minemeld-core state=started
 - name: start minemeld-web
   supervisorctl: name=minemeld-web state=started
-- name: restart supervisor
-  service: name=supervisor state=restarted
-  ignore_errors: yes
 - name: restart nginx
   service: name=nginx state=restarted
 - name: supervisor insserv config
