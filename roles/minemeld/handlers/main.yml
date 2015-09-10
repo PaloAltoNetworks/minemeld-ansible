@@ -5,7 +5,7 @@
 - name: cleanup git repo
   command: git clean -f -d
   args:
-    chdir: {{ repo_directory }}
+    chdir: "{{ repo_directory }}"
 - name: start minemeld-core
   supervisorctl: name=minemeld-core state=started
 - name: start minemeld-web
