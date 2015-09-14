@@ -32,7 +32,7 @@
   - name: config directory
     file: state=directory path="{{config_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: update apt
-    apt: update_cache: yes
+    apt: update_cache=yes
 
   roles:
   - minemeld
