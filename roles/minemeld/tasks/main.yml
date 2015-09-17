@@ -31,6 +31,7 @@
     - start rabbitmq-server
     - start minemeld-core
     - start minemeld-web
+  when: core
 - name: minemeld-gui repo
   git:
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-gui.git
@@ -38,6 +39,7 @@
     dest: "{{www_directory}}"
     version: master
   sudo: no
+  when: gui
 - name: repo permissions
   file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 - name: www permissions
