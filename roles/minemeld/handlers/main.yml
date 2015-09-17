@@ -1,3 +1,7 @@
+- name: supervisor insserv config
+  command: /usr/lib/insserv/insserv -o supervisor
+- name: restart collectd
+  service: name=collectd state=restarted
 - name: stop rabbitmq-server
   service: name=rabbitmq-server state=stopped
 - name: stop minemeld-core
@@ -10,21 +14,17 @@
     chdir: "{{ repo_directory }}"
 - name: start rabbitmq-server
   service: name=rabbitmq-server state=started
+- name: restart supervisor
+  service: name=supervisor state=restarted
+  ignore_errors: yes
 - name: start minemeld-core
   supervisorctl: name=minemeld-core state=started
 - name: start minemeld-web
   supervisorctl: name=minemeld-web state=started
-- name: restart supervisor
-  service: name=supervisor state=restarted
-  ignore_errors: yes
 - name: restart nginx
   service: name=nginx state=restarted
-- name: supervisor insserv config
-  command: /usr/lib/insserv/insserv -o supervisor
 - name: restart minemeld-core
   supervisorctl: name=minemeld-core state=restarted
 - name: restart minemeld-web
   supervisorctl: name=minemeld-web state=restarted
-- name: restart collectd
-  service: name=collectd state=restarted
 
