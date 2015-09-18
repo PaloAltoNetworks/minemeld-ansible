@@ -10,8 +10,8 @@
     repo_directory: "{{main_directory}}/minemeld-core"
     www_directory: "{{main_directory}}/www"
     venv_directory: "{{main_directory}}/mm-venv"
-    gui: true
-    core: true
+    gui: false
+    core: false
 
   pre_tasks:
   - name: current primary group
