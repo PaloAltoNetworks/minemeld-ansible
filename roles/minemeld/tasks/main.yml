@@ -79,7 +79,9 @@
     force: no
     dest: /etc/nginx/minemeld.htpasswd
     src: minemeld.htpasswd
+    group: www-data
     mode: 0640
+  notify: restart nginx
 - name: supervisor minemeld-core program
   template:
     src: minemeld-core.supervisord.j2
