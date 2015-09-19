@@ -1,7 +1,7 @@
 # this should be commented in production !
 DEBUG: true
 
-USERS_DB: minemeld.htpasswd
+API_AUTH_ENABLED: false
 
 FEEDS:
   - inboundfeed

@@ -77,11 +77,9 @@
 - name: minemeld-web users
   copy:
     force: no
-    dest: "{{config_directory}}/minemeld.htpasswd"
+    dest: /etc/nginx/minemeld.htpasswd
     src: minemeld.htpasswd
-    owner: minemeld
-    group: "{{my_group.stdout}}"
-    mode: 0644
+    mode: 0640
 - name: supervisor minemeld-core program
   template:
     src: minemeld-core.supervisord.j2
@@ -98,6 +96,20 @@
     group: root
     mode: 0644
   notify: restart supervisor
+- name: nginx certificate
+  copy:
+    force: no
+    dest: /etc/nginx/minemeld.cer
+    src: minemeld.cer
+    mode: 0644
+  notify: restart nginx
+- name: nginx private key
+  copy:
+    force: no
+    dest: /etc/nginx/minemeld.pem
+    src: minemeld.pem
+    mode: 0600
+  notify: restart nginx
 - name: nginx config
   template:
     src: minemeld-web.nginx.j2
