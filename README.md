@@ -14,7 +14,7 @@ Ubuntu 14.04.03 LTS Server
     sudo pip install ansible
     git config --global credential.helper 'cache --timeout=300'
     git ls-remote https://github.com/PaloAltoNetworks-BD/minemeld-ansible.git
-    ansible-pull -K -C develop -i localhost, -U https://github.com/PaloAltoNetworks-BD/minemeld-ansible.git -v -d minemeld-ansible
+    ansible-pull -K -C develop -i localhost, -e "gui=true core=true" -U https://github.com/PaloAltoNetworks-BD/minemeld-ansible.git -v -d minemeld-ansible
     
 At the end of the installation you should be able to access http://(VMIP)/feeds/inboundfeed and http://(VMIP)/feeds/outboundfeed with your browser.
 
