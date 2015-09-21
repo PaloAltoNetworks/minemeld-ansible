@@ -16,6 +16,8 @@
   apt: name=collectd-core state=present
 - name: rrdtool dev
   apt: name=librrd-dev state=present
+- name: libxslt1-dev
+  apt: name=libxslt1-dev state=present
 - name: minemeld-core repo
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
