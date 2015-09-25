@@ -18,6 +18,13 @@
   apt: name=librrd-dev state=present
 - name: libxslt1-dev
   apt: name=libxslt1-dev state=present
+- name: minemeld-node-prototypes repo
+  git:
+    repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git
+    clone: yes
+    dest: "{{prototypes_repo_directory}}"
+    version: develop
+  sudo: no
 - name: minemeld-core repo
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git

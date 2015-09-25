@@ -10,6 +10,9 @@
     repo_directory: "{{main_directory}}/minemeld-core"
     www_directory: "{{main_directory}}/www"
     venv_directory: "{{main_directory}}/mm-venv"
+    prototypes_directory: "{{main_directory}}/prototypes"
+    prototypes_local_directory: "{{prototypes_directory}}/local"
+    prototypes_repo_directory: "{{prototypes_directory}}/minemeld"
     gui: false
     core: false
 
@@ -33,6 +36,10 @@
     file: state=directory path="{{data_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: config directory
     file: state=directory path="{{config_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  - name: prototypes main directory
+    file: state=directory path="{{ prototypes_directory }}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  - name: prototypes local directory
+    file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: update apt
     apt: update_cache=yes
 
