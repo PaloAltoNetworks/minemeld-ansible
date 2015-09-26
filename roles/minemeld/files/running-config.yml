@@ -46,9 +46,7 @@ nodes:
       - outboundaggregator
     output: false
   dshield_blocklist:
-    config:
-      interval: 600
-    class: DshieldBlockList
+    prototype: dshield.block
     output: true
   zeustracker_badips:
     config:
