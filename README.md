@@ -8,6 +8,7 @@ Ubuntu 14.04.03 LTS Server
 
 ## Howto
 
+    sudo apt-get update
     sudo apt-get install gcc git python2.7-dev
     wget https://bootstrap.pypa.io/get-pip.py
     sudo python get-pip.py
