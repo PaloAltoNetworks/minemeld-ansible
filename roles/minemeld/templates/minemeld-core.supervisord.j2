@@ -1,7 +1,7 @@
 [program:minemeld-core]
-environment=PATH="{{ venv_directory }}/bin",PYTHONPATH="{{ repo_directory }}",HOME="{{ data_directory }}",MINEMELD_PROTOTYPE_PATH="{{ prototypes_local_directory }}:{{ prototypes_repo_directory }}"
-command={{ repo_directory }}/mm-run.py --verbose {{ config_directory }}
-directory={{ data_directory }}
+environment=PATH="{{ venv_directory }}/bin",PYTHONPATH="{{ core_directory }}",HOME="{{ db_directory }}",MINEMELD_PROTOTYPE_PATH="{{ prototypes_local_directory }}:{{ prototypes_repo_directory }}"
+command={{ venv_directory }}/bin/mm-run --verbose {{ config_directory }}
+directory={{ db_directory }}
 user=minemeld
 stopwaitsecs=60
 autostart=true

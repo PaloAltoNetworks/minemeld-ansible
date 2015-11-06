@@ -1,3 +1,7 @@
+- name: install minemeld-core
+  command: "{{ venv_directory }}/bin/python setup.py develop"
+  chdir: "{{ core_directory }}"
+  sudo: no
 - name: supervisor insserv config
   command: /usr/lib/insserv/insserv -o supervisor
 - name: restart collectd

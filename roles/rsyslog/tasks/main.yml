@@ -1,0 +1,6 @@
+- name: add rsyslog repository
+  apt_repository: repo="ppa:adiscon/v8-stable" apt_cache=update
+- name: install rsyslog
+  apt: name=rsyslog=8.13 state=present
+- name: install mmnormalize
+  apt: name=rsyslog-mmnormalize=8.13 state=present

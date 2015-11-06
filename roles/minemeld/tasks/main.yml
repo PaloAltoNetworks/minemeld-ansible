@@ -1,23 +1,18 @@
-- name: git
-  apt: name=git state=present
-- name: nginx
-  apt: name=nginx state=present
-- name: rabbitmq-server
-  apt: name=rabbitmq-server state=present
-- name: g++
-  apt: name=g++ state=present
-- name: libleveldb-dev
-  apt: name=libleveldb-dev state=present
-- name: redis-server
-  apt: name=redis-server state=present
-- name: supervisor
-  apt: name=supervisor state=present
-- name: collectd-core
-  apt: name=collectd-core state=present
-- name: rrdtool dev
-  apt: name=librrd-dev state=present
-- name: libxslt1-dev
-  apt: name=libxslt1-dev state=present
+- name: install packages
+  apt: name={{item}} state=present
+  with_items:
+    - git
+    - nginx
+    - g++
+    - libleveldb-dev
+    - supervisor
+    - collectd-core
+    - librrd-dev
+    - libxslt1-dev
+- name: download rsyslog minemeld modules
+  get_url: url=https://paloaltonetworks.box.com/shared/static/u2d9olc2pujsrcltzlt9uufd0c3r5daq.deb dest=rsyslog-minemeld_8.13-1.deb
+- name: install rsyslog minemeld module
+  apt: deb=rsyslog-minemeld_8.13-1.deb state=present
 - name: minemeld-node-prototypes repo
   git:
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git
@@ -29,10 +24,11 @@
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
     clone: yes
-    dest: "{{repo_directory}}"
+    dest: "{{core_directory}}"
     version: develop
   sudo: no
   notify:
+    - install minemeld-core
     - stop rabbitmq-server
     - stop minemeld-core
     - stop minemeld-web
@@ -49,24 +45,35 @@
     version: master
   sudo: no
   when: gui
-- name: repo permissions
-  file: path="{{repo_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+
+- name: core permissions
+  file: path="{{core_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 - name: www permissions
   file: path="{{www_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+
 - name: virtualenv
   pip: name=virtualenv
 - name: minemeld virtualenv
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
 - name: virtualenv permissions
   file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
-    requirements: "{{repo_directory}}/requirements.txt"
+    requirements: "{{core_directory}}/requirements.txt"
+  sudo: no
 - name: requirements web
   pip:
     virtualenv: "{{venv_directory}}"
     requirements: "{{repo_directory}}/requirements-web.txt"
+  sudo: no
+- name: requirements dev
+  pip:
+    virtualenv: "{{venv_directory}}"
+    requirements: "{{repo_directory}}/requirements-dev.txt"
+  sudo: no
+
 - name: minemeld-core config
   copy:
     force: no

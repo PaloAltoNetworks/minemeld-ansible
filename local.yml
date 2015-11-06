@@ -6,13 +6,13 @@
   vars:
     main_directory: "/opt/minemeld"
     data_directory: "{{main_directory}}/data"
-    config_directory: "{{main_directory}}/config"
-    repo_directory: "{{main_directory}}/minemeld-core"
+    config_directory: "{{data_directory}}/config"
+    db_directory: "{{data_directory}}/data"
+    core_directory: "{{main_directory}}/core"
     www_directory: "{{main_directory}}/www"
-    venv_directory: "{{main_directory}}/mm-venv"
-    prototypes_directory: "{{main_directory}}/prototypes"
-    prototypes_local_directory: "{{prototypes_directory}}/local"
-    prototypes_repo_directory: "{{prototypes_directory}}/minemeld"
+    venv_directory: "{{main_directory}}/venv"
+    prototypes_local_directory: "{{data_directory}}/prototypes"
+    prototypes_repo_directory: "{{main_directory}}/prototypes"
     gui: false
     core: false
 
@@ -36,21 +36,21 @@
     file: state=directory path="{{data_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: config directory
     file: state=directory path="{{config_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
-  - name: prototypes main directory
-    file: state=directory path="{{ prototypes_directory }}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  - name: db directory
+    file: state=directory path="{{db_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: prototypes local directory
     file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: update apt
     apt: update_cache=yes
 
   roles:
+  - rabbitmq
+  - redis
+  - logstash
+  - rsyslog
   - minemeld
 
   post_tasks:
-  - name: start rabbitmq-server
-    service: name=rabbitmq-server state=started
-  - name: start redis-server
-    service: name=redis-server state=started
   - name: start nginx
     service: name=nginx state=started
   - name: start supervisor
