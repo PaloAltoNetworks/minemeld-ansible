@@ -12,7 +12,7 @@
 - name: download rsyslog minemeld modules
   get_url: url=https://paloaltonetworks.box.com/shared/static/1at3pq1mrlg8hfabm1p0c7mpo4fofoxu.deb dest=/tmp/rsyslog-minemeld_8.14-0.deb
 - name: install rsyslog minemeld module
-  apt: deb=/tmp/rsyslog-minemeld_8.13-1.deb state=present
+  apt: deb=/tmp/rsyslog-minemeld_8.14-0.deb state=present
 - name: minemeld-node-prototypes repo
   git:
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git
