@@ -10,9 +10,12 @@
     creates: jre-8u60-linux-x64.tar.gz
   when: "not java.stat.exists"
 - name: extract java
-  command: tar -xvzf jre-8u60-linux-x64.tar.gz
+  command: tar -xzf jre-8u60-linux-x64.tar.gz
   args:
     creates: jre1.8.0_60
+  when: "not java.stat.exists"
+- name: delete java archive
+  file: path=jre-8u60-linux-x64.tar.gz state=absent
   when: "not java.stat.exists"
 - name: move java
   command: mv jre1.8.0_60/ /usr/lib/jvm/
@@ -32,3 +35,10 @@
   apt: name=logstash state=present
 - name: enable logstash
   service: name=logstash enabled=yes
+- name: configurre logstash
+  copy:
+    force: no
+    dest: /etc/logstash/conf.d/10-tcp-input.conf
+    src: 10-tcp-input.conf
+    mode: 0640
+  notify: restart logstash

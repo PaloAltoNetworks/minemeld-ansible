@@ -4,3 +4,13 @@
   apt: name=rsyslog state=latest force=yes
 - name: install mmnormalize
   apt: name=rsyslog-mmnormalize state=latest force=yes
+- name: configure rsyslog
+  copy:
+    force: no
+    dest: "/etc/rsyslog.d/{{item}}"
+    src: "{{item}}"
+    mode: 0640
+  notify: restart rsyslog
+  with_items:
+    - palo_alto_networks.rb
+    - 60-syslog-minemeld.conf

@@ -16,7 +16,7 @@
 - name: cleanup git repo
   command: git clean -f -d
   args:
-    chdir: "{{ repo_directory }}"
+    chdir: "{{ core_directory }}"
 - name: start rabbitmq-server
   service: name=rabbitmq-server state=started
 - name: restart supervisor
@@ -32,4 +32,3 @@
   supervisorctl: name=minemeld-core state=restarted
 - name: restart minemeld-web
   supervisorctl: name=minemeld-web state=restarted
-
