@@ -11,9 +11,9 @@ Ubuntu 14.04.03 LTS Server
     sudo apt-get update
     sudo apt-get install gcc git python2.7-dev
     wget https://bootstrap.pypa.io/get-pip.py
-    sudo python get-pip.py
-    sudo pip install ansible
-    git config --global credential.helper 'cache --timeout=300'
+    sudo -H python get-pip.py
+    sudo -H pip install ansible
+    git config --global credential.helper 'cache --timeout=1800'
     git ls-remote https://github.com/PaloAltoNetworks-BD/minemeld-ansible.git
     ansible-pull -K -C develop -i localhost, -e "gui=true core=true" -U https://github.com/PaloAltoNetworks-BD/minemeld-ansible.git -v -d minemeld-ansible
     
