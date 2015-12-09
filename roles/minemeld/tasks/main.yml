@@ -5,7 +5,6 @@
     - nginx
     - g++
     - libleveldb-dev
-    - supervisor
     - collectd-core
     - librrd-dev
     - libxslt1-dev
@@ -57,7 +56,7 @@
 - name: requirements dev
   pip:
     virtualenv: "{{venv_directory}}"
-    requirements: "{{core_directory}}/core/requirements-dev.txt"
+    requirements: "{{engine_directory}}/core/requirements-dev.txt"
   sudo: no
 
 - name: minemeld-engine config
@@ -87,9 +86,8 @@
 - name: supervisor config
   template:
     src: supervisord.conf.j2
-    dest: "{{local_directory}}/supervisor/config"
+    dest: "{{local_directory}}/supervisor/config/supervisord.conf"
     owner: minemeld
-    group: minemeld
     mode: 0644
 - name: minemeld init
   template:
@@ -99,20 +97,20 @@
     group: root
     mode: 0744
 - name: minemeld service
-    service:
-      name: minemeld
-      enabled: yes
+  service:
+    name: minemeld
+    enabled: yes
 - name: supervisor minemeld-engine program
   template:
     src: minemeld-engine.supervisord.j2
-    dest: "{{local_directory}}/local/supervisor/config/conf.d/minemeld-engine.conf"
+    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-engine.conf"
     owner: root
     group: root
     mode: 0644
 - name: supervisor minemeld-web program
   template:
     src: minemeld-web.supervisord.j2
-    dest: "{{local_directory}}/local/supervisor/config/conf.d/minemeld-web.conf"
+    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-web.conf"
     owner: root
     group: root
     mode: 0644

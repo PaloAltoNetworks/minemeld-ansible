@@ -90,7 +90,7 @@ case "$1" in
   start)
     echo -n "Starting $DESC: "
     start-stop-daemon --start --quiet --pidfile $PIDFILE \
-        --startas $DAEMON --chuid minemeld:minemeld -- $DAEMON_OPTS
+        --startas $DAEMON --chuid minemeld:{{my_group.stdout}} -- $DAEMON_OPTS
     test -f $PIDFILE || sleep 1
         if running ; then
             echo "$NAME."

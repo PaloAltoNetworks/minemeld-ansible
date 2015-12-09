@@ -1,5 +1,5 @@
 [program:minemeld-engine]
-environment=PATH="{{ venv_directory }}/bin",PYTHONPATH="{{ engine_directory }}",HOME="{{ db_directory }}",MINEMELD_PROTOTYPE_PATH="{{ prototypes_local_directory }}:{{ prototypes_repo_directory }}"
+environment=PATH="{{ venv_directory }}/bin",PYTHONPATH="{{ engine_directory }}",HOME="{{ db_directory }}",MINEMELD_PROTOTYPE_PATH="{{ prototypes_local_directory }}:{{ prototypes_repo_directory }}/current"
 command={{ venv_directory }}/bin/mm-run --verbose {{ config_directory }}
 directory={{ db_directory }}
 user=minemeld
@@ -8,4 +8,4 @@ autostart=true
 autorestart=true
 redirect_stderr=true
 killasgroup=true
-stdout_logfile=/var/log/minemeld-engine.log
+stdout_logfile=/opt/minemeld/log/minemeld-engine.log

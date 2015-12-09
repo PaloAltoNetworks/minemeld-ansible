@@ -26,7 +26,7 @@
     user:
       name: minemeld
       group: "{{my_group.stdout}}"
-      home: "{{data_directory}}"
+      home: "{{db_directory}}"
       createhome: no
       shell: "/usr/sbin/nologin"
   - name: main directory
@@ -43,6 +43,8 @@
     file: state=directory path="{{ supervisor_directory }}/config/conf.d" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: supervisor run directory
     file: state=directory path="{{ supervisor_directory }}/run" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  - name: log directory
+    file: state=directory path="{{ main_directory }}/log" owner=minemeld group="{{my_group.stdout}}" mode=0775
   - name: update apt
     apt: update_cache=yes
 
