@@ -17,19 +17,19 @@
   git:
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git
     clone: yes
-    dest: "{{prototypes_repo_directory}}"/minemeld-node-prototypes
+    dest: "{{prototypes_repo_directory}}/minemeld-node-prototypes"
     version: develop
   sudo: no
 - name: minemeld-node-prototypes current link
   file:
-    src: "{{prototypes_repo_directory}}"/minemeld-node-prototypes/prototypes
-    dest: "{{prototypes_repo_directory}}"/current
+    src: "{{prototypes_repo_directory}}/minemeld-node-prototypes/prototypes"
+    dest: "{{prototypes_repo_directory}}/current"
     state: link
 - name: minemeld-core repo
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
     clone: yes
-    dest: "{{engine_directory}}"/core
+    dest: "{{engine_directory}}/core"
     version: develop
   sudo: no
 - name: engine permissions
