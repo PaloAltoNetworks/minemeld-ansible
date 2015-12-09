@@ -17,37 +17,23 @@
   git:
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git
     clone: yes
-    dest: "{{prototypes_repo_directory}}"
+    dest: "{{prototypes_repo_directory}}"/minemeld-node-prototypes
     version: develop
   sudo: no
+- name: minemeld-node-prototypes current link
+  file:
+    src: "{{prototypes_repo_directory}}"/minemeld-node-prototypes/prototypes
+    dest: "{{prototypes_repo_directory}}"/current
+    state: link
 - name: minemeld-core repo
   git: 
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
     clone: yes
-    dest: "{{core_directory}}"
+    dest: "{{engine_directory}}"/core
     version: develop
   sudo: no
-  notify:
-    - install minemeld-core
-    - stop rabbitmq-server
-    - stop minemeld-core
-    - stop minemeld-web
-    - cleanup git repo
-    - start rabbitmq-server
-    - start minemeld-core
-    - start minemeld-web
-  when: core
-- name: minemeld-gui repo
-  git:
-    repo: https://github.com/PaloAltoNetworks-BD/minemeld-gui.git
-    clone: yes
-    dest: "{{www_directory}}"
-    version: master
-  sudo: no
-  when: gui
-
-- name: core permissions
-  file: path="{{core_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+- name: engine permissions
+  file: path="{{engine_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 - name: www permissions
   file: path="{{www_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
 
@@ -61,20 +47,20 @@
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
-    requirements: "{{core_directory}}/requirements.txt"
+    requirements: "{{engine_directory}}/core/requirements.txt"
   sudo: no
 - name: requirements web
   pip:
     virtualenv: "{{venv_directory}}"
-    requirements: "{{core_directory}}/requirements-web.txt"
+    requirements: "{{engine_directory}}/core/requirements-web.txt"
   sudo: no
 - name: requirements dev
   pip:
     virtualenv: "{{venv_directory}}"
-    requirements: "{{core_directory}}/requirements-dev.txt"
+    requirements: "{{core_directory}}/core/requirements-dev.txt"
   sudo: no
 
-- name: minemeld-core config
+- name: minemeld-engine config
   copy:
     force: no
     dest: "{{config_directory}}/running-config.yml"
@@ -93,27 +79,43 @@
 - name: minemeld-web users
   copy:
     force: no
-    dest: /etc/nginx/minemeld.htpasswd
+    dest: "{{config_directory}}/minemeld.htpasswd"
     src: minemeld.htpasswd
-    group: www-data
+    owner: minemeld
     mode: 0640
   notify: restart nginx
-- name: supervisor minemeld-core program
+- name: supervisor config
   template:
-    src: minemeld-core.supervisord.j2
-    dest: "/etc/supervisor/conf.d/minemeld-core.conf"
+    src: supervisord.conf.j2
+    dest: "{{local_directory}}/supervisor/config"
+    owner: minemeld
+    group: minemeld
+    mode: 0644
+- name: minemeld init
+  template:
+    src: supervisor.init.j2
+    dest: /etc/init.d/minemeld
+    owner: root
+    group: root
+    mode: 0744
+- name: minemeld service
+    service:
+      name: minemeld
+      enabled: yes
+- name: supervisor minemeld-engine program
+  template:
+    src: minemeld-engine.supervisord.j2
+    dest: "{{local_directory}}/local/supervisor/config/conf.d/minemeld-engine.conf"
     owner: root
     group: root
     mode: 0644
-  notify: restart supervisor
 - name: supervisor minemeld-web program
   template:
     src: minemeld-web.supervisord.j2
-    dest: "/etc/supervisor/conf.d/minemeld-web.conf"
+    dest: "{{local_directory}}/local/supervisor/config/conf.d/minemeld-web.conf"
     owner: root
     group: root
     mode: 0644
-  notify: restart supervisor
 - name: nginx certificate
   copy:
     force: no
@@ -139,14 +141,6 @@
 - name: delete nginx default
   file: path=/etc/nginx/sites-enabled/default state=absent
   notify: restart nginx
-- name: supervisor insserv config
-  template:
-    src: supervisor.insserv.j2
-    dest: /etc/insserv/overrides/supervisor
-    owner: root
-    group: root
-    mode: 0644
-  notify: supervisor insserv config
 - name: collectd config
   template:
     src: collectd.conf.j2
