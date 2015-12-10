@@ -3,13 +3,8 @@ upstream app_server {
 }
 
 server {
-    listen 80;
-    server_name ~(.+)$;
-    return 301 https://$1$request_uri;
-}
-
-server {
     listen 443 ssl;
+    listen 80;
 
     server_name _;
     ssl_certificate /etc/nginx/minemeld.cer;
@@ -22,7 +17,7 @@ server {
     keepalive_timeout 5;
 
     # path for static files
-    root {{ www_directory }};
+    root /opt/minemeld/www/current;
 
     location = / {
         index index.html;
@@ -30,17 +25,11 @@ server {
 
     # first files then proxy to flask app
     location / {
-        auth_basic "MineMeld";
-        auth_basic_user_file /etc/nginx/minemeld.htpasswd;
-
         try_files $uri @proxy_to_app;
     }
 
     # for SSE
     location /status/events {
-        auth_basic "MineMeld";
-        auth_basic_user_file /etc/nginx/minemeld.htpasswd;
-
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
         proxy_set_header Connection '';

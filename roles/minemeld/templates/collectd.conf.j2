@@ -35,6 +35,13 @@ LoadPlugin rrdtool
   DataDir "/var/lib/collectd/rrd"
   CacheFlush 120
   WritesPerSecond 50
+  StepSize 60
+  RRARows 1440
+  RRATimespan 86400
+  RRATimespan 604800
+  RRATimespan 2678400
+  RRATimespan 3456000
+  RRATimespan 31622400
   XFF 0.9
 </Plugin>
 
