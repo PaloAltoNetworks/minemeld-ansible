@@ -1,17 +1,44 @@
+- name: create minemeld group
+  group: name=minemeld state=present
+- name: current user
+  command: id -gn
+  sudo: no
+  register: my_user
+- name: show current user
+  debug: msg="current user {{my_user.stdout}}"
+- name: add current user to minemeld group
+  user: name="{{my_user.stdout}}" groups=minemeld append=yes
+- name: minemeld user
+  user:
+    name: minemeld
+    group: "{{my_group.stdout}}"
+    home: "{{db_directory}}"
+    createhome: no
+    shell: "/usr/sbin/nologin"
+- name: main directory
+  file: state=directory path="{{main_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: local directory
+  file: state=directory path="{{local_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: db directory
+  file: state=directory path="{{db_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: config directory
+  file: state=directory path="{{config_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: prototypes local directory
+  file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: supervisor config directory
+  file: state=directory path="{{ supervisor_directory }}/config/conf.d" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: supervisor run directory
+  file: state=directory path="{{ supervisor_directory }}/run" owner=minemeld group="{{my_group.stdout}}" mode=0775
+- name: log directory
+  file: state=directory path="{{ main_directory }}/log" owner=minemeld group="{{my_group.stdout}}" mode=0775
 - name: install packages
   apt: name={{item}} state=present
   with_items:
     - git
-    - nginx
     - g++
     - libleveldb-dev
-    - collectd-core
     - librrd-dev
     - libxslt1-dev
-- name: download rsyslog minemeld modules
-  get_url: url=https://paloaltonetworks.box.com/shared/static/1at3pq1mrlg8hfabm1p0c7mpo4fofoxu.deb dest=/tmp/rsyslog-minemeld_8.14-0.deb
-- name: install rsyslog minemeld module
-  apt: deb=/tmp/rsyslog-minemeld_8.14-0.deb state=present
 - name: minemeld-node-prototypes repo
   git:
     repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git

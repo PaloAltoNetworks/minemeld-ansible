@@ -1,4 +1,0 @@
-- name: redis-server
-  apt: name=redis-server state=present
-- name: start redis-server
-  service: name=redis-server state=started

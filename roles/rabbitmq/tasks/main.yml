@@ -1,4 +1,0 @@
-- name: rabbitmq-server
-  apt: name=rabbitmq-server state=present
-- name: start rabbitmq-server
-  service: name=rabbitmq-server state=started
