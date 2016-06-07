@@ -11,26 +11,26 @@
 - name: minemeld user
   user:
     name: minemeld
-    group: "{{my_group.stdout}}"
+    group: "minemeld"
     home: "{{db_directory}}"
     createhome: no
     shell: "/usr/sbin/nologin"
 - name: main directory
-  file: state=directory path="{{main_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{main_directory}}" owner=minemeld group="minemeld" mode=0775
 - name: local directory
-  file: state=directory path="{{local_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{local_directory}}" owner=minemeld group="minemeld" mode=0775
 - name: db directory
-  file: state=directory path="{{db_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{db_directory}}" owner=minemeld group="minemeld" mode=0775
 - name: config directory
-  file: state=directory path="{{config_directory}}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{config_directory}}" owner=minemeld group="minemeld" mode=0775
 - name: prototypes local directory
-  file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="minemeld" mode=0775
 - name: supervisor config directory
-  file: state=directory path="{{ supervisor_directory }}/config/conf.d" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{ supervisor_directory }}/config/conf.d" owner=minemeld group="minemeld" mode=0775
 - name: supervisor run directory
-  file: state=directory path="{{ supervisor_directory }}/run" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{ supervisor_directory }}/run" owner=minemeld group="minemeld" mode=0775
 - name: log directory
-  file: state=directory path="{{ main_directory }}/log" owner=minemeld group="{{my_group.stdout}}" mode=0775
+  file: state=directory path="{{ main_directory }}/log" owner=minemeld group="minemeld" mode=0775
 - name: install packages
   apt: name={{item}} state=present
   with_items:
@@ -41,7 +41,7 @@
     - libxslt1-dev
 - name: minemeld-node-prototypes repo
   git:
-    repo: https://github.com/PaloAltoNetworks-BD/minemeld-node-prototypes.git
+    repo: https://github.com/PaloAltoNetworks/minemeld-node-prototypes.git
     clone: yes
     dest: "{{prototypes_repo_directory}}/minemeld-node-prototypes"
     version: develop
@@ -53,22 +53,22 @@
     state: link
 - name: minemeld-core repo
   git: 
-    repo: https://github.com/PaloAltoNetworks-BD/minemeld-core.git
+    repo: https://github.com/PaloAltoNetworks/minemeld-core.git
     clone: yes
     dest: "{{engine_directory}}/core"
     version: develop
   sudo: no
 - name: engine permissions
-  file: path="{{engine_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+  file: path="{{engine_directory}}" state=directory recurse=yes owner=minemeld group="minemeld" mode=u=rwX,g=rwX,o=rX
 - name: www permissions
-  file: path="{{www_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+  file: path="{{www_directory}}" state=directory recurse=yes owner=minemeld group="minemeld" mode=u=rwX,g=rwX,o=rX
 
 - name: virtualenv
   pip: name=virtualenv
 - name: minemeld virtualenv
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
 - name: virtualenv permissions
-  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group="{{my_group.stdout}}" mode=u=rwX,g=rwX,o=rX
+  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group="minemeld" mode=u=rwX,g=rwX,o=rX
 
 - name: requirements
   pip:
@@ -92,7 +92,7 @@
     dest: "{{config_directory}}/running-config.yml"
     src: running-config.yml
     owner: minemeld
-    group: "{{my_group.stdout}}"
+    group: "minemeld"
     mode: 0644
 - name: minemeld-web config
   copy:
@@ -100,7 +100,7 @@
     dest: "{{config_directory}}/wsgi.yml"
     src: wsgi.yml
     owner: minemeld
-    group: "{{my_group.stdout}}"
+    group: "minemeld"
     mode: 0644
 - name: minemeld-web users
   copy:
