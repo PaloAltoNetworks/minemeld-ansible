@@ -1,0 +1,52 @@
+# create user, group minemeld and assign current user to the group
+- name: create minemeld group
+  group: name=minemeld state=present
+- name: current user
+  command: id -gn
+  sudo: no
+  register: my_user
+- name: show current user
+  debug: msg="current user {{my_user.stdout}}"
+- name: add current user to minemeld group
+  user: name="{{my_user.stdout}}" groups=minemeld append=yes
+- name: minemeld user
+  user:
+    name: minemeld
+    group: "minemeld"
+    home: "{{data_directory}}"
+    createhome: no
+    shell: "/usr/sbin/nologin"
+
+# create directoy layout
+- name: main directory
+  file: state=directory path="{{main_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: local directory
+  file: state=directory path="{{local_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: data directory
+  file: state=directory path="{{data_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: config directory
+  file: state=directory path="{{config_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: trace directory
+  file: state=directory path="{{trace_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: library directory
+  file: state=directory path="{{library_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: prototypes local directory
+  file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="minemeld" mode=0775
+- name: supervisor config directory
+  file: state=directory path="{{ supervisor_directory }}/config/conf.d" owner=minemeld group="minemeld" mode=0775
+- name: supervisor run directory
+  file: state=directory path="{{ supervisor_directory }}/run" owner=minemeld group="minemeld" mode=0775
+- name: log directory
+  file: state=directory path="{{ main_directory }}/log" owner=minemeld group="minemeld" mode=0775
+
+# install required dev packages
+- name: install packages
+  apt: name={{item}} state=present
+  with_items:
+    - git
+    - g++
+    - libleveldb-dev
+    - librrd-dev
+    - libxslt1-dev
+    - libc-ares-dev
+    - libsnappy-dev
