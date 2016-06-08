@@ -20,7 +20,7 @@ LoadPlugin rrdtool
 
 <Plugin unixsock>
     SocketFile "/var/run/collectd.sock"
-    SocketGroup "{{my_group.stdout}}"
+    SocketGroup "minemeld"
     SocketPerms "0770"
     DeleteSocket false
 </Plugin>

@@ -22,7 +22,7 @@ server {
     keepalive_timeout 5;
 
     # path for static files
-    root /opt/minemeld/www/current;
+    root {{www_directory}}/current;
 
     location = / {
         index index.html;
