@@ -1,12 +1,12 @@
 ; supervisor config file
 
 [unix_http_server]
-file=/opt/minemeld/local/supervisor/run/minemeld.sock   ; (the path to the socket file)
+file={{supervisor_directory}}/run/minemeld.sock   ; (the path to the socket file)
 
 [supervisord]
-logfile=/opt/minemeld/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
-pidfile=/opt/minemeld/local/supervisor/run/minemeld.pid ; (supervisord pidfile;default supervisord.pid)
-childlogdir=/opt/minemeld/log/            ; ('AUTO' child log dir, default $TEMP)
+logfile={{main_directory}}/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
+pidfile={{supervisor_directory}}/run/minemeld.pid ; (supervisord pidfile;default supervisord.pid)
+childlogdir={{main_directory}}/log/            ; ('AUTO' child log dir, default $TEMP)
 
 ; the below section must remain in the config file for RPC
 ; (supervisorctl/web interface) to work, additional interfaces may be
@@ -15,7 +15,7 @@ childlogdir=/opt/minemeld/log/            ; ('AUTO' child log dir, default $TEMP
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
 [supervisorctl]
-serverurl=unix:///opt/minemeld/local/supervisor/run/minemeld.sock ; use a unix:// URL  for a unix socket
+serverurl=unix://{{supervisor_directory}}/run/minemeld.sock ; use a unix:// URL  for a unix socket
 
 ; The [include] section can just contain the "files" setting.  This
 ; setting can list multiple files (separated by whitespace or
@@ -24,4 +24,4 @@ serverurl=unix:///opt/minemeld/local/supervisor/run/minemeld.sock ; use a unix:/
 ; include files themselves.
 
 [include]
-files = /opt/minemeld/local/supervisor/config/conf.d/*.conf
+files = {{supervisor_directory}}/config/conf.d/*.conf

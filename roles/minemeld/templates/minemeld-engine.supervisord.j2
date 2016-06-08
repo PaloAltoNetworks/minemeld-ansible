@@ -1,11 +1,11 @@
 [program:minemeld-engine]
-environment=PATH="{{ venv_directory }}/bin",PYTHONPATH="{{ engine_directory }}",HOME="{{ db_directory }}",MINEMELD_PROTOTYPE_PATH="{{ prototypes_local_directory }}:{{ prototypes_repo_directory }}/current"
-command={{ venv_directory }}/bin/mm-run --verbose {{ config_directory }}
-directory={{ db_directory }}
+environment=PATH="{{venv_directory}}/bin",HOME="{{data_directory}}",MINEMELD_PROTOTYPE_PATH="{{prototypes_local_directory}}:{{prototypes_repo_directory}}/current"
+command={{venv_directory}}/bin/mm-run {{config_directory}}
+directory={{data_directory}}
 user=minemeld
-stopwaitsecs=60
+stopwaitsecs=600
 autostart=true
 autorestart=true
 redirect_stderr=true
 killasgroup=true
-stdout_logfile=/opt/minemeld/log/minemeld-engine.log
+stdout_logfile={{ main_directory }}/log/minemeld-engine.log

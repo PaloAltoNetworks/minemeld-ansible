@@ -1,7 +1,9 @@
 - include: structure.yml
 - include: prototypes.yml
-- include: engine.yml
+- include: core.yml
 - fail: msg='let\'s stop here for the moment'
+- include: webui.yml
+- include: infrastructure_config.yml
 - name: nginx certificate
   copy:
     force: no

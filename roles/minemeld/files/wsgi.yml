@@ -1,5 +1,0 @@
-# this should be commented in production !
-DEBUG: true
-
-API_AUTH_ENABLED: true
-USERS_DB: minemeld.htpasswd

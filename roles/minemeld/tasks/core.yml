@@ -42,49 +42,47 @@
   command: "{{venv_directory}}/bin/pip install -e {{engine_directory}}/core"
   sudo: no
 
-- fail: msg="enough"
-
+# services configs
 - name: minemeld-engine config
   copy:
     force: no
-    dest: "{{config_directory}}/running-config.yml"
-    src: running-config.yml
+    dest: "{{config_directory}}/committed-config.yml"
+    src: committed-config.yml
     owner: minemeld
-    group: "minemeld"
+    group: minemeld
     mode: 0644
-- name: minemeld-web config
+- name: minemeld-traced config
   copy:
     force: no
-    dest: "{{config_directory}}/wsgi.yml"
-    src: wsgi.yml
+    dest: "{{config_directory}}/traced.yml"
+    src: traced.yml
     owner: minemeld
-    group: "minemeld"
+    group: minemeld
+    mode: 0644
+- name: minemeld-web config
+  template:
+    dest: "{{config_directory}}/wsgi.yml"
+    src: wsgi.yml.j2
+    owner: minemeld
+    group: minemeld
     mode: 0644
 - name: minemeld-web users
   copy:
     force: no
-    dest: "{{config_directory}}/minemeld.htpasswd"
-    src: minemeld.htpasswd
+    dest: "{{config_directory}}/wsgi.htpasswd"
+    src: wsgi.htpasswd
     owner: minemeld
+    group: minemeld
     mode: 0640
-  notify: restart nginx
+
+# supervisor config
 - name: supervisor config
   template:
     src: supervisord.conf.j2
     dest: "{{local_directory}}/supervisor/config/supervisord.conf"
     owner: minemeld
+    group: minemeld
     mode: 0644
-- name: minemeld init
-  template:
-    src: supervisor.init.j2
-    dest: /etc/init.d/minemeld
-    owner: root
-    group: root
-    mode: 0744
-- name: minemeld service
-  service:
-    name: minemeld
-    enabled: yes
 - name: supervisor minemeld-engine program
   template:
     src: minemeld-engine.supervisord.j2
@@ -99,3 +97,23 @@
     owner: root
     group: root
     mode: 0644
+- name: supervisor minemeld-traced program
+  template:
+    src: minemeld-traced.supervisord.j2
+    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-traced.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+# system service
+- name: minemeld init
+  template:
+    src: minemeld.init.j2
+    dest: /etc/init.d/minemeld
+    owner: root
+    group: root
+    mode: 0744
+- name: minemeld service
+  service:
+    name: minemeld
+    enabled: yes
