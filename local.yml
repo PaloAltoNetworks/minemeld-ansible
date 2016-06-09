@@ -5,5 +5,4 @@
 
   roles:
   - infrastructure
-  - { role: minemeld_devel, when: "i == 'devel'" }
-  - { role: minemeld, when: "i != 'devel'" }
+  - minemeld_devel

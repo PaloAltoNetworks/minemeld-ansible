@@ -1,6 +1,8 @@
 # minemeld-ansible
 
-Ansible playbook for minemeld development
+Ansible playbook for minemeld-core development.
+
+This playbook does not install MineMeld WebUI, see https://github.com/PaloAltoNetworks/minemeld-webui for instructions on how to set up a development environment for MineMeld WebUI.
 
 ## Requirements
 
@@ -8,18 +10,24 @@ Ubuntu 14.04 LTS Server
 
 ## Howto
 
-    $ sudo apt-get update
-    $ sudo apt-get upgrade (optional)
-    $ sudo apt-get install gcc git python2.7-dev libffi-dev libssl-dev
-    $ wget https://bootstrap.pypa.io/get-pip.py
-    $ sudo -H python get-pip.py
-    $ sudo -H pip install ansible
     $ sudo su -
+    # apt-get update
+    # apt-get upgrade (optional)
+    # apt-get install gcc git python2.7-dev libffi-dev libssl-dev
+    # wget https://bootstrap.pypa.io/get-pip.py
+    # python get-pip.py
+    # pip install ansible
     # git config --global credential.helper 'cache --timeout=1800'
     # git clone -b develop https://github.com/PaloAltoNetworks/minemeld-ansible.git
     # cd minemeld-ansible
-    # ansible-playbook -i localhost, -e "i=devel" local.yml
+    # ansible-playbook -i localhost, local.yml
     # usermod -a -G minemeld <your user>
     # exit
 
-At the end of the installation you should be able to access http://(VMIP)/feeds/inboundfeed and http://(VMIP)/feeds/outboundfeed with your browser.
+At the end of the procedure you should be able to start MineMeld service:
+
+    $ sudo service minemeld start
+    $ sudo /opt/minemeld/engine/current/bin/supervisorctl -c /opt/minemeld/local/supervisor/config/supervisord.conf status
+    minemeld-engine                  RUNNING   pid 60201, uptime 0:00:31
+    minemeld-traced                  RUNNING   pid 60202, uptime 0:00:31
+    minemeld-web                     RUNNING   pid 60203, uptime 0:00:31
