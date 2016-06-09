@@ -31,3 +31,10 @@ At the end of the procedure you should be able to start MineMeld service:
     minemeld-engine                  RUNNING   pid 60201, uptime 0:00:31
     minemeld-traced                  RUNNING   pid 60202, uptime 0:00:31
     minemeld-web                     RUNNING   pid 60203, uptime 0:00:31
+
+## Where from here
+
+At the end of the installations a clone of the `develop` branch of:
+
+* `minemeld-core` repo can be found in `/opt/minemeld/engine/current`
+* `minemeld-node-prototypes` repo can be found in `/opt/minemeld/prototypes/current`
