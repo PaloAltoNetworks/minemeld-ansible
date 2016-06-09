@@ -2,3 +2,9 @@
 - include: prototypes.yml
 - include: core.yml
 - include: infrastructure_config.yml
+
+# set permissions after install
+- name: minemeld directory permissions
+  file: path="{{main_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode=u=rwX,g=rwX,o=rX
+
+- debug: msg="Remember to add your user to the minemeld group"

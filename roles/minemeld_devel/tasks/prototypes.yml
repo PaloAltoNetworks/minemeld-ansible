@@ -4,7 +4,6 @@
     clone: yes
     dest: "{{prototypes_repo_directory}}/minemeld-node-prototypes"
     version: develop
-  sudo: no
 - name: minemeld-node-prototypes current link
   file:
     src: "{{prototypes_repo_directory}}/minemeld-node-prototypes/prototypes"
@@ -12,4 +11,3 @@
     state: link
     owner: minemeld
     group: minemeld
-

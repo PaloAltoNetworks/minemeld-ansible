@@ -5,9 +5,6 @@
     clone: yes
     dest: "{{engine_directory}}/core"
     version: develop
-  sudo: no
-- name: engine permissions
-  file: path="{{engine_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode=u=rwX,g=rwX,o=rX
 
 # creates the virtualenv in the engine/current directory and install reqs
 - name: virtualenv
@@ -27,20 +24,16 @@
   pip:
     virtualenv: "{{venv_directory}}"
     requirements: "{{engine_directory}}/core/requirements.txt"
-  sudo: no
 - name: requirements web
   pip:
     virtualenv: "{{venv_directory}}"
     requirements: "{{engine_directory}}/core/requirements-web.txt"
-  sudo: no
 - name: requirements dev
   pip:
     virtualenv: "{{venv_directory}}"
     requirements: "{{engine_directory}}/core/requirements-dev.txt"
-  sudo: no
 - name: install engine in development mode
   command: "{{venv_directory}}/bin/pip install -e {{engine_directory}}/core"
-  sudo: no
 
 # services configs
 - name: minemeld-engine config
