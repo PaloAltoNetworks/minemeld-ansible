@@ -1,6 +1,4 @@
 # create user, group minemeld and assign current user to the group
-- name: create minemeld group
-  group: name=minemeld state=present
 - name: current user
   command: id -gn
   sudo: no
@@ -12,7 +10,7 @@
 - name: minemeld user
   user:
     name: minemeld
-    group: "minemeld"
+    group: minemeld
     home: "{{data_directory}}"
     createhome: no
     shell: "/usr/sbin/nologin"

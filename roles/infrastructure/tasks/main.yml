@@ -1,3 +1,8 @@
+# create minemeld group
+- name: create minemeld group
+  group: name=minemeld state=present
+
+# install required services
 - name: rabbitmq-server
   apt: name=rabbitmq-server state=present
 - name: redis-server
