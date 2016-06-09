@@ -38,4 +38,3 @@ At the end of the installations a clone of the `develop` branch of:
 
 * `minemeld-core` repo can be found in `/opt/minemeld/engine/current`
 * `minemeld-node-prototypes` repo can be found in `/opt/minemeld/prototypes/current`
->>>>>>> develop
