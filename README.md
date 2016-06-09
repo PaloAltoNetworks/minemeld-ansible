@@ -18,7 +18,7 @@ Ubuntu 14.04 LTS Server
     # python get-pip.py
     # pip install ansible
     # git config --global credential.helper 'cache --timeout=1800'
-    # git clone -b develop https://github.com/PaloAltoNetworks/minemeld-ansible.git
+    # git clone https://github.com/PaloAltoNetworks/minemeld-ansible.git
     # cd minemeld-ansible
     # ansible-playbook -i localhost, local.yml
     # usermod -a -G minemeld <your user>
