@@ -1,0 +1,37 @@
+nodes:
+  dshield_blocklist:
+    output: true
+    prototype: dshield.block
+  inboundaggregator:
+    inputs:
+    - spamhaus_DROP
+    - spamhaus_EDROP
+    - dshield_blocklist
+    - wlWhiteListIPv4
+    output: true
+    prototype: stdlib.aggregatorIPv4Inbound
+  inboundfeedhc:
+    inputs:
+    - inboundaggregator
+    output: false
+    prototype: stdlib.feedHCGreen
+  inboundfeedlc:
+    inputs:
+    - inboundaggregator
+    output: false
+    prototype: stdlib.feedLCGreen
+  inboundfeedmc:
+    inputs:
+    - inboundaggregator
+    output: false
+    prototype: stdlib.feedMCGreen
+  spamhaus_DROP:
+    output: true
+    prototype: spamhaus.DROP
+  spamhaus_EDROP:
+    output: true
+    prototype: spamhaus.EDROP
+  wlWhiteListIPv4:
+    inputs: []
+    output: true
+    prototype: stdlib.listIPv4Generic

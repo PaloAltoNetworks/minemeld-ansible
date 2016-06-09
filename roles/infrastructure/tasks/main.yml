@@ -1,0 +1,21 @@
+# create minemeld group
+- name: create minemeld group
+  group: name=minemeld state=present
+
+# install required services
+- name: rabbitmq-server
+  apt: name=rabbitmq-server state=present
+- name: redis-server
+  apt: name=redis-server state=present
+- name: collectd
+  apt: name=collectd-core state=present
+- name: nginx
+  apt: name=nginx state=present
+- name: start rabbitmq-server
+  service: name=rabbitmq-server state=started
+- name: start redis-server
+  service: name=redis-server state=started
+- name: start collectd
+  service: name=collectd state=started
+- name: start nginx
+  service: name=nginx state=started

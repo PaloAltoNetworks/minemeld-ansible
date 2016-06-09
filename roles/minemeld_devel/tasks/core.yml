@@ -1,0 +1,112 @@
+# clone the core repo and set permissions
+- name: minemeld-core repo
+  git: 
+    repo: https://github.com/PaloAltoNetworks/minemeld-core.git
+    clone: yes
+    dest: "{{engine_directory}}/core"
+    version: develop
+
+# creates the virtualenv in the engine/current directory and install reqs
+- name: virtualenv
+  pip: name=virtualenv
+- name: minemeld virtualenv
+  command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
+- name: virtualenv permissions
+  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode=u=rwX,g=rwX,o=rX
+- name: check if install scripts does exist
+  stat:
+    path: "{{engine_directory}}/core/scripts/ubuntu-install.sh"
+  register: script_exists
+- name: launch install script
+  command: "{{engine_directory}}/core/scripts/ubuntu-install.sh"
+  when: script_exists.stat.exists == True
+- name: requirements
+  pip:
+    virtualenv: "{{venv_directory}}"
+    requirements: "{{engine_directory}}/core/requirements.txt"
+- name: requirements web
+  pip:
+    virtualenv: "{{venv_directory}}"
+    requirements: "{{engine_directory}}/core/requirements-web.txt"
+- name: requirements dev
+  pip:
+    virtualenv: "{{venv_directory}}"
+    requirements: "{{engine_directory}}/core/requirements-dev.txt"
+- name: install engine in development mode
+  command: "{{venv_directory}}/bin/pip install -e {{engine_directory}}/core"
+
+# services configs
+- name: minemeld-engine config
+  copy:
+    force: no
+    dest: "{{config_directory}}/committed-config.yml"
+    src: committed-config.yml
+    owner: minemeld
+    group: minemeld
+    mode: 0644
+- name: minemeld-traced config
+  copy:
+    force: no
+    dest: "{{config_directory}}/traced.yml"
+    src: traced.yml
+    owner: minemeld
+    group: minemeld
+    mode: 0644
+- name: minemeld-web config
+  template:
+    dest: "{{config_directory}}/wsgi.yml"
+    src: wsgi.yml.j2
+    owner: minemeld
+    group: minemeld
+    mode: 0644
+- name: minemeld-web users
+  copy:
+    force: no
+    dest: "{{config_directory}}/wsgi.htpasswd"
+    src: wsgi.htpasswd
+    owner: minemeld
+    group: minemeld
+    mode: 0640
+
+# supervisor config
+- name: supervisor config
+  template:
+    src: supervisord.conf.j2
+    dest: "{{local_directory}}/supervisor/config/supervisord.conf"
+    owner: minemeld
+    group: minemeld
+    mode: 0644
+- name: supervisor minemeld-engine program
+  template:
+    src: minemeld-engine.supervisord.j2
+    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-engine.conf"
+    owner: root
+    group: root
+    mode: 0644
+- name: supervisor minemeld-web program
+  template:
+    src: minemeld-web.supervisord.j2
+    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-web.conf"
+    owner: root
+    group: root
+    mode: 0644
+- name: supervisor minemeld-traced program
+  template:
+    src: minemeld-traced.supervisord.j2
+    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-traced.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+# system service
+- name: minemeld init
+  template:
+    src: minemeld.init.j2
+    dest: /etc/init.d/minemeld
+    owner: root
+    group: root
+    mode: 0744
+- name: minemeld service
+  service:
+    name: minemeld
+    enabled: yes

@@ -1,0 +1,32 @@
+- name: install minemeld-engine
+  command: "{{ venv_directory }}/bin/python setup.py develop"
+  args:
+    chdir: "{{ engine_directory }}/core"
+  sudo: no
+- name: restart collectd
+  service: name=collectd state=restarted
+- name: stop rabbitmq-server
+  service: name=rabbitmq-server state=stopped
+- name: stop minemeld-engine
+  supervisorctl: name=minemeld-engine state=stopped
+- name: stop minemeld-web
+  supervisorctl: name=minemeld-web state=stopped
+- name: cleanup git repo
+  command: git clean -f -d -x
+  args:
+    chdir: "{{ engine_directory }}/core"
+- name: start rabbitmq-server
+  service: name=rabbitmq-server state=started
+- name: restart supervisor
+  service: name=supervisor state=restarted
+  ignore_errors: yes
+- name: start minemeld-engine
+  supervisorctl: name=minemeld-engine state=started
+- name: start minemeld-web
+  supervisorctl: name=minemeld-web state=started
+- name: restart nginx
+  service: name=nginx state=restarted
+- name: restart minemeld-engine
+  supervisorctl: name=minemeld-engine state=restarted
+- name: restart minemeld-web
+  supervisorctl: name=minemeld-web state=restarted

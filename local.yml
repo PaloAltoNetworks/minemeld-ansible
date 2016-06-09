@@ -1,0 +1,8 @@
+- name: minemeld playbook
+  hosts: 127.0.0.1
+  connection: local
+  sudo: yes
+
+  roles:
+  - infrastructure
+  - minemeld_devel

@@ -1,0 +1,11 @@
+[program:minemeld-engine]
+environment=PATH="{{venv_directory}}/bin",HOME="{{data_directory}}",MINEMELD_PROTOTYPE_PATH="{{prototypes_local_directory}}:{{prototypes_repo_directory}}/current"
+command={{venv_directory}}/bin/mm-run {{config_directory}}
+directory={{data_directory}}
+user=minemeld
+stopwaitsecs=600
+autostart=true
+autorestart=true
+redirect_stderr=true
+killasgroup=true
+stdout_logfile={{ main_directory }}/log/minemeld-engine.log
