@@ -1,7 +1,7 @@
 # clone the core repo and set permissions
 - name: minemeld-core repo
   git: 
-    repo: https://github.com/PaloAltoNetworks/minemeld-core.git
+    repo: "{{core_repo}}"
     clone: yes
     dest: "{{engine_directory}}/core"
     version: develop

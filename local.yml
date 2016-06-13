@@ -3,6 +3,11 @@
   connection: local
   sudo: yes
 
+  # remove comment to set custom repositories
+  # vars:
+  #   core_repo: "https://github.com/jtschichold/minemeld-core.git"
+  #   prototype_repo: "https://github.com/jtschichold/minemeld-node-prototypes.git"
+
   roles:
   - infrastructure
   - minemeld_devel
