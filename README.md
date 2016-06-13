@@ -32,6 +32,10 @@ At the end of the procedure you should be able to start MineMeld service:
     minemeld-traced                  RUNNING   pid 60202, uptime 0:00:31
     minemeld-web                     RUNNING   pid 60203, uptime 0:00:31
 
+### Cloning forks
+
+You can edit the variables inside the ``local.yml`` file to specify the URL of a fork of the main MineMeld repos.
+
 ## Where from here
 
 At the end of the installations a clone of the `develop` branch of:
