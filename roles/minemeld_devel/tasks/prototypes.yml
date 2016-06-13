@@ -1,6 +1,6 @@
 - name: minemeld-node-prototypes repo
   git:
-    repo: https://github.com/PaloAltoNetworks/minemeld-node-prototypes.git
+    repo: "{{prototype_repo}}"
     clone: yes
     dest: "{{prototypes_repo_directory}}/minemeld-node-prototypes"
     version: develop
