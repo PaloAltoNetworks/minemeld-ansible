@@ -1,6 +1,6 @@
 [program:minemeld-traced]
 environment=PATH="{{venv_directory}}/bin",PYTHONPATH="{{engine_directory}}",HOME="{{trace_directory}}"
-command={{venv_directory}}/bin/mm-traced {{config_directory}}/traced.yml
+command={{venv_directory}}/bin/mm-traced {{config_directory}}/traced/traced.yml
 directory={{trace_directory}}
 user=minemeld
 stopwaitsecs=200
