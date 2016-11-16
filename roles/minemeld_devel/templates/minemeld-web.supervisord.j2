@@ -1,5 +1,5 @@
 [program:minemeld-web]
-environment=MM_CONFIG="{{config_directory}}",PATH="{{venv_directory}}/bin",HOME="{{data_directory}}",MINEMELD_PROTOTYPE_PATH="{{prototypes_local_directory}}:{{prototypes_repo_directory}}/current"
+environment=MM_CONFIG="{{config_directory}}/",PATH="{{venv_directory}}/bin",HOME="{{data_directory}}",MINEMELD_PROTOTYPE_PATH="{{prototypes_local_directory}}:{{prototypes_repo_directory}}/current"
 command={{venv_directory}}/bin/gunicorn -w 1 -b 127.0.0.1:5000  --access-logfile - --error-logfile - -k gevent minemeld.flask:app 
 directory=/tmp
 user=minemeld
