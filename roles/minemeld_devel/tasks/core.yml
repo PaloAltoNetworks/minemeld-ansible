@@ -47,22 +47,22 @@
 - name: minemeld-traced config
   copy:
     force: no
-    dest: "{{config_directory}}/traced.yml"
+    dest: "{{config_directory}}/traced/traced.yml"
     src: traced.yml
     owner: minemeld
     group: minemeld
     mode: 0644
 - name: minemeld-web config
   template:
-    dest: "{{config_directory}}/wsgi.yml"
-    src: wsgi.yml.j2
+    dest: "{{config_directory}}/api/10-defaults.yml"
+    src: 10-defaults.yml.j2
     owner: minemeld
     group: minemeld
     mode: 0644
 - name: minemeld-web users
   copy:
     force: no
-    dest: "{{config_directory}}/wsgi.htpasswd"
+    dest: "{{config_directory}}/api/wsgi.htpasswd"
     src: wsgi.htpasswd
     owner: minemeld
     group: minemeld
@@ -72,28 +72,28 @@
 - name: supervisor config
   template:
     src: supervisord.conf.j2
-    dest: "{{local_directory}}/supervisor/config/supervisord.conf"
+    dest: "{{main_directory}}/supervisor/config/supervisord.conf"
     owner: minemeld
     group: minemeld
     mode: 0644
 - name: supervisor minemeld-engine program
   template:
     src: minemeld-engine.supervisord.j2
-    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-engine.conf"
+    dest: "{{main_directory}}/supervisor/config/conf.d/minemeld-engine.conf"
     owner: root
     group: root
     mode: 0644
 - name: supervisor minemeld-web program
   template:
     src: minemeld-web.supervisord.j2
-    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-web.conf"
+    dest: "{{main_directory}}/supervisor/config/conf.d/minemeld-web.conf"
     owner: root
     group: root
     mode: 0644
 - name: supervisor minemeld-traced program
   template:
     src: minemeld-traced.supervisord.j2
-    dest: "{{local_directory}}/supervisor/config/conf.d/minemeld-traced.conf"
+    dest: "{{main_directory}}/supervisor/config/conf.d/minemeld-traced.conf"
     owner: root
     group: root
     mode: 0644
@@ -107,6 +107,4 @@
     group: root
     mode: 0744
 - name: minemeld service
-  service:
-    name: minemeld
-    enabled: yes
+  command: update-rc.d minemeld defaults 99 10

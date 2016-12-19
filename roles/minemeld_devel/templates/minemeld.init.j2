@@ -25,7 +25,7 @@ DESC="Runs minemeld via supervisord"
 NAME=minemeld
 DAEMON={{venv_directory}}/bin/supervisord   # Supervisord is installed in /usr/bin by default, but /usr/sbin would make more sense.
 SUPERVISORCTL={{venv_directory}}/bin/supervisorctl
-PIDFILE={{supervisor_directory}}/run/$NAME.pid
+PIDFILE=/var/run/minemeld/$NAME.pid
 CONFIGFILE={{supervisor_directory}}/config/supervisord.conf
 DAEMON_ARGS="-c ${CONFIGFILE} --pidfile ${PIDFILE}"
 SCRIPTNAME=/etc/init.d/$NAME
@@ -55,6 +55,23 @@ do_start()
 	#   1 if daemon was already running
 	#   2 if daemon could not be started
 	[ -e $PIDFILE ] && return 1
+
+	# ensure PID dir exists in tmpfs /run
+	# this comes from rabbitmq-server init script
+	PIDDIR=$(dirname $PIDFILE)
+	if [ ! -d ${PIDDIR} ] ; then
+		mkdir -p ${PIDDIR}
+		chown -R minemeld:minemeld ${PIDDIR}
+		chmod 755 ${PIDDIR}
+	fi
+
+	# XXX ideally this should disappear
+	# create symbolic link for retrocompatibility
+	if [ -e /opt/minemeld/local/supervisor/run ] && [ ! -h /opt/minemeld/local/supervisor/run ] ; then
+		rm -rf /opt/minemeld/local/supervisor/run
+		ln -s /var/run/minemeld /opt/minemeld/local/supervisor/run
+		chown -h minemeld:minemeld /opt/minemeld/local/supervisor/run
+	fi
 
 	start-stop-daemon --start --quiet --chuid minemeld:minemeld --pidfile $PIDFILE --exec $DAEMON -- \
 		$DAEMON_ARGS \
