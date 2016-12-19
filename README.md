@@ -26,7 +26,7 @@ Ubuntu 14.04 LTS Server
 At the end of the procedure you should be able to start MineMeld service:
 
     $ sudo service minemeld start
-    $ sudo -u minemeld /opt/minemeld/engine/current/bin/supervisorctl -c /opt/minemeld/local/supervisor/config/supervisord.conf status
+    $ sudo -u minemeld /opt/minemeld/engine/current/bin/supervisorctl -c /opt/minemeld/supervisor/config/supervisord.conf status
     minemeld-engine                  RUNNING   pid 60201, uptime 0:00:31
     minemeld-traced                  RUNNING   pid 60202, uptime 0:00:31
     minemeld-web                     RUNNING   pid 60203, uptime 0:00:31
