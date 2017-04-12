@@ -1,0 +1,21 @@
+[Unit]
+Description=Process Monitoring and Control Daemon
+Requires=network.target redis.service rabbitmq-server.service collectd.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/minemeld/minemeld.pid
+ExecStartPre=-/usr/bin/mkdir /var/run/minemeld
+ExecStartPre=/usr/bin/chown -R minemeld:minemeld /var/run/minemeld/
+PermissionsStartOnly=true
+User=minemeld
+Group=minemeld
+ExecStart={{venv_directory}}/bin/supervisord -c {{supervisor_directory}}/config/supervisord.conf --pidfile /var/run/minemeld/minemeld.pid
+ExecStop={{venv_directory}}/bin/supervisord -c {{supervisor_directory}}/config/supervisord.conf stop all
+ExecStopPost=/bin/rm -f /var/run/minemeld/minemeld.pid
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=process
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

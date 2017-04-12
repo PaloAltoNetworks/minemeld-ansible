@@ -1,0 +1,4 @@
+main_directory: "/opt/minemeld"
+core_repo: "https://github.com/PaloAltoNetworks/minemeld-core.git"
+prototype_repo: "https://github.com/PaloAltoNetworks/minemeld-node-prototypes.git"
+webui_repo: "https://github.com/PaloAltoNetworks/minemeld-webui.git"

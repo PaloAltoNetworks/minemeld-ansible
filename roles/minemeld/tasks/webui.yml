@@ -1,0 +1,61 @@
+# clone the webui repo and set permissions
+- name: minemeld-webui repo
+  git: 
+    repo: "{{webui_repo}}"
+    clone: yes
+    dest: "{{webui_repo_directory}}"
+    version: "{{minemeld_version}}"
+
+- name: nodeenv
+  pip: name=nodeenv
+- name: minemeld nodeenv
+  command: nodeenv -v -n 0.12.2 --npm=2.14.7 --prebuilt -c "{{www_venv_directory}}" creates="{{www_venv_directory}}"
+- name: npm install
+  command: npm install chdir="{{webui_repo_directory}}"
+  environment:
+    NODE_VIRTUAL_ENV: "{{www_venv_directory}}"
+    PATH: "{{www_venv_directory}}/lib/node_modules/.bin:{{www_venv_directory}}/bin:{{webui_repo_directory}}/node_modules/.bin:{{ ansible_env.PATH }}"
+    NODE_PATH: "{{www_venv_directory}}/lib/node_modules"
+    NPM_CONFIG_PREFIX: "{{www_venv_directory}}"
+    npm_config_prefix: "{{www_venv_directory}}"
+- name: bower install
+  command: bower install --allow-root chdir="{{webui_repo_directory}}"
+  environment:
+    NODE_VIRTUAL_ENV: "{{www_venv_directory}}"
+    PATH: "{{www_venv_directory}}/lib/node_modules/.bin:{{www_venv_directory}}/bin:{{webui_repo_directory}}/node_modules/.bin:{{ ansible_env.PATH }}"
+    NODE_PATH: "{{www_venv_directory}}/lib/node_modules"
+    NPM_CONFIG_PREFIX: "{{www_venv_directory}}"
+    npm_config_prefix: "{{www_venv_directory}}"
+- name: typings install
+  command: typings install chdir="{{webui_repo_directory}}"
+  environment:
+    NODE_VIRTUAL_ENV: "{{www_venv_directory}}"
+    PATH: "{{www_venv_directory}}/lib/node_modules/.bin:{{www_venv_directory}}/bin:{{webui_repo_directory}}/node_modules/.bin:{{ ansible_env.PATH }}"
+    NODE_PATH: "{{www_venv_directory}}/lib/node_modules"
+    NPM_CONFIG_PREFIX: "{{www_venv_directory}}"
+    npm_config_prefix: "{{www_venv_directory}}"
+- name: nsp check
+  command: nsp check chdir="{{webui_repo_directory}}"
+  environment:
+    NODE_VIRTUAL_ENV: "{{www_venv_directory}}"
+    PATH: "{{www_venv_directory}}/lib/node_modules/.bin:{{www_venv_directory}}/bin:{{webui_repo_directory}}/node_modules/.bin:{{ ansible_env.PATH }}"
+    NODE_PATH: "{{www_venv_directory}}/lib/node_modules"
+    NPM_CONFIG_PREFIX: "{{www_venv_directory}}"
+    npm_config_prefix: "{{www_venv_directory}}"
+- name: gulp build
+  command: gulp build chdir="{{webui_repo_directory}}"
+  environment:
+    NODE_VIRTUAL_ENV: "{{www_venv_directory}}"
+    PATH: "{{www_venv_directory}}/lib/node_modules/.bin:{{www_venv_directory}}/bin:{{webui_repo_directory}}/node_modules/.bin:{{ ansible_env.PATH }}"
+    NODE_PATH: "{{www_venv_directory}}/lib/node_modules"
+    NPM_CONFIG_PREFIX: "{{www_venv_directory}}"
+    npm_config_prefix: "{{www_venv_directory}}"
+- name: nodeenv permissions
+  file: path="{{www_venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode="{{file_permissions}}"
+- name: minemeld-node-prototypes current link
+  file:
+    src: "{{webui_repo_directory}}/dist"
+    dest: "{{www_directory}}/current"
+    state: link
+    owner: minemeld
+    group: minemeld

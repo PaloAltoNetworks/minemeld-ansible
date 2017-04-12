@@ -1,21 +1,32 @@
+# from http://serverfault.com/questions/587727/how-to-unify-package-installation-tasks-in-ansible
+- debug: msg="Loading vars for {{ ansible_distribution }} {{ ansible_distribution_version }}"
+- include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+
 # create minemeld group
 - name: create minemeld group
   group: name=minemeld state=present
 
+# include distribution tasks
+- name: include task based on distribution
+  include: "roles/infrastructure/tasks/{{infrastructure_include}}.yml"
+  when: infrastructure_include is defined
+
 # install required services
-- name: rabbitmq-server
-  apt: name=rabbitmq-server state=present
-- name: redis-server
-  apt: name=redis-server state=present
-- name: collectd
-  apt: name=collectd-core state=present
-- name: nginx
-  apt: name=nginx state=present
+- name: install packages
+  package: name={{item}} state=present
+  with_items: "{{infrastructure_packages}}"
+  when: infrastructure_packages is defined
+
+# start services
 - name: start rabbitmq-server
-  service: name=rabbitmq-server state=started
+  service: name="{{rabbitmq_server_service}}" state=started enabled=yes
 - name: start redis-server
-  service: name=redis-server state=started
+  service: name="{{redis_server_service}}" state=started enabled=yes
 - name: start collectd
-  service: name=collectd state=started
+  service: name="{{collectd_service}}" state=started enabled=yes
 - name: start nginx
-  service: name=nginx state=started
+  service: name="{{nginx_service}}" state=started enabled=yes
