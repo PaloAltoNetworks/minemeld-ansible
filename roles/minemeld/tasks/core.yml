@@ -4,7 +4,7 @@
     repo: "{{core_repo}}"
     clone: yes
     dest: "{{engine_directory}}/core"
-    version: develop
+    version: "{{minemeld_version}}"
 
 # creates the virtualenv in the engine/current directory and install reqs
 - name: virtualenv
@@ -12,14 +12,7 @@
 - name: minemeld virtualenv
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
 - name: virtualenv permissions
-  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode=u=rwX,g=rwX,o=rX
-- name: check if install scripts does exist
-  stat:
-    path: "{{engine_directory}}/core/scripts/ubuntu-install.sh"
-  register: script_exists
-- name: launch install script
-  command: "{{engine_directory}}/core/scripts/ubuntu-install.sh"
-  when: script_exists.stat.exists == True
+  file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode="{{file_permissions}}"
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
@@ -32,8 +25,12 @@
   pip:
     virtualenv: "{{venv_directory}}"
     requirements: "{{engine_directory}}/core/requirements-dev.txt"
-- name: install engine in development mode
+- name: install engine
   command: "{{venv_directory}}/bin/pip install -e {{engine_directory}}/core"
+- name: create extensions frigidaire
+  command: "{{venv_directory}}/bin/mm-extensions-freeze {{library_directory}} {{library_directory}}/freeze.txt"
+- name: create constraints file
+  shell: "{{venv_directory}}/bin/pip freeze | grep -v minemeld-core > {{library_directory}}/constraints.txt"
 
 # services configs
 - name: minemeld-engine config
@@ -47,22 +44,30 @@
 - name: minemeld-traced config
   copy:
     force: no
-    dest: "{{config_directory}}/traced/traced.yml"
+    dest: "{{traced_config_directory}}/traced.yml"
     src: traced.yml
     owner: minemeld
     group: minemeld
     mode: 0644
-- name: minemeld-web config
+- name: minemeld-web config defaults
   template:
-    dest: "{{config_directory}}/api/10-defaults.yml"
+    dest: "{{api_config_directory}}/10-defaults.yml"
     src: 10-defaults.yml.j2
+    owner: minemeld
+    group: minemeld
+    mode: 0644
+- name: minemeld-web config local
+  template:
+    force: no
+    dest: "{{api_config_directory}}/20-local.yml"
+    src: 20-local.yml.j2
     owner: minemeld
     group: minemeld
     mode: 0644
 - name: minemeld-web users
   copy:
     force: no
-    dest: "{{config_directory}}/api/wsgi.htpasswd"
+    dest: "{{api_config_directory}}/wsgi.htpasswd"
     src: wsgi.htpasswd
     owner: minemeld
     group: minemeld
@@ -72,39 +77,35 @@
 - name: supervisor config
   template:
     src: supervisord.conf.j2
-    dest: "{{main_directory}}/supervisor/config/supervisord.conf"
+    dest: "{{supervisor_directory}}/config/supervisord.conf"
     owner: minemeld
     group: minemeld
     mode: 0644
 - name: supervisor minemeld-engine program
   template:
     src: minemeld-engine.supervisord.j2
-    dest: "{{main_directory}}/supervisor/config/conf.d/minemeld-engine.conf"
-    owner: root
-    group: root
+    dest: "{{supervisor_directory}}/config/conf.d/minemeld-engine.conf"
+    owner: minemeld
+    group: minemeld
     mode: 0644
 - name: supervisor minemeld-web program
   template:
     src: minemeld-web.supervisord.j2
-    dest: "{{main_directory}}/supervisor/config/conf.d/minemeld-web.conf"
-    owner: root
-    group: root
+    dest: "{{supervisor_directory}}/config/conf.d/minemeld-web.conf"
+    owner: minemeld
+    group: minemeld
     mode: 0644
 - name: supervisor minemeld-traced program
   template:
     src: minemeld-traced.supervisord.j2
-    dest: "{{main_directory}}/supervisor/config/conf.d/minemeld-traced.conf"
-    owner: root
-    group: root
+    dest: "{{supervisor_directory}}/config/conf.d/minemeld-traced.conf"
+    owner: minemeld
+    group: minemeld
     mode: 0644
-
-# system service
-- name: minemeld init
+- name: supervisor minemeld-supervisord-listener
   template:
-    src: minemeld.init.j2
-    dest: /etc/init.d/minemeld
-    owner: root
-    group: root
-    mode: 0744
-- name: minemeld service
-  command: update-rc.d minemeld defaults 99 10
+    src: minemeld-supervisord-listener.supervisord.j2
+    dest: "{{supervisor_directory}}/config/conf.d/minemeld-supervisord-listener.conf"
+    owner: minemeld
+    group: minemeld
+    mode: 0644

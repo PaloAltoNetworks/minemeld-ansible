@@ -1,0 +1,20 @@
+# Do not change this file ! Changes will be overwritten
+# if you want to change the config create a new yaml file in this directory
+
+API_AUTH_ENABLED: true
+USERS_DB: wsgi.htpasswd
+
+SUPERVISOR_URL: "unix:///var/run/minemeld/minemeld.sock"
+
+MINEMELD_PROTOTYPE_PATH: "{{prototypes_local_directory}}:{{prototypes_repo_directory}}/current"
+
+MINEMELD_LOCAL_PATH: "{{local_directory}}"
+MINEMELD_LOCAL_PROTOTYPE_PATH: "{{prototypes_local_directory}}"
+MINEMELD_LOCAL_LIBRARY_PATH: "{{library_directory}}"
+MINEMELD_LOG_DIRECTORY_PATH: "{{main_directory}}/log"
+
+# for the extensions
+MINEMELD_GIT_PATH: "/usr/bin/git"
+MINEMELD_PIP_PATH: "{{venv_directory}}/bin/pip"
+MINEMELD_TRACED_PURGE_PATH: "{{venv_directory}}/bin/mm-traced-purge"
+MINEMELD_7Z_PATH: "/usr/bin/7z"

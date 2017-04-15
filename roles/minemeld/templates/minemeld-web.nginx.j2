@@ -26,11 +26,17 @@ server {
 
     location = / {
         index index.html;
+        expires off;
     }
 
     # first files then proxy to flask app
     location / {
         try_files $uri @proxy_to_app;
+    }
+
+    location ~* \.html$ {
+        try_files $uri @proxy_to_app;
+        expires -1;
     }
 
     # for SSE
@@ -44,6 +50,8 @@ server {
         chunked_transfer_encoding off;
         proxy_cache off;
         proxy_read_timeout 120s;
+
+        expires -1;
 
         proxy_pass   http://app_server;        
     }

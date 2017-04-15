@@ -1,13 +1,20 @@
 - name: minemeld playbook
   hosts: 127.0.0.1
   connection: local
-  sudo: yes
+  become: true
+  become_method: sudo
 
+  vars:
+    minemeld_version: develop
+    file_permissions: 'u=rwX,g=rwX,o=rX'
+  # uncomment the following to install stable
+  # minemeld_version: master
+  # group_permissions: 'u=rwX,g=rX,o=rX'
   # remove comment to set custom repositories
-  # vars:
-  #   core_repo: "https://github.com/jtschichold/minemeld-core.git"
-  #   prototype_repo: "https://github.com/jtschichold/minemeld-node-prototypes.git"
+  # core_repo: "https://github.com/jtschichold/minemeld-core.git"
+  # prototype_repo: "https://github.com/jtschichold/minemeld-node-prototypes.git"
+  # webui_repo: "https://github/jtschichold/minemeld-webui.git"
 
   roles:
   - infrastructure
-  - minemeld_devel
+  - minemeld

@@ -1,0 +1,12 @@
+[eventlistener:minemeld-supervisord-listener]
+command="{{venv_directory}}"/bin/mm-supervisord-listener
+user=minemeld
+stopwaitsecs=10
+autostart=true
+autorestart=true
+startsecs=1
+# redirect_stderr=true
+# killasgroup=true
+stderr_logfile={{main_directory}}/log/minemeld-supervisord-listener.log
+events=PROCESS_STATE
+buffer_size=10

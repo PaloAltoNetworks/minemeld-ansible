@@ -1,11 +1,13 @@
 [program:minemeld-traced]
 environment=PATH="{{venv_directory}}/bin",PYTHONPATH="{{engine_directory}}",HOME="{{trace_directory}}"
-command={{venv_directory}}/bin/mm-traced {{config_directory}}/traced/traced.yml
+command={{venv_directory}}/bin/mm-traced {{traced_config_directory}}/traced.yml
 directory={{trace_directory}}
 user=minemeld
+umask=027
 stopwaitsecs=200
 autostart=true
 autorestart=true
 redirect_stderr=true
 killasgroup=true
 stdout_logfile={{main_directory}}/log/minemeld-traced.log
+logfile_backups=2
