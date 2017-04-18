@@ -25,7 +25,7 @@
   notify: restart nginx
 - name: collectd config
   template:
-    src: collectd.conf.j2
+    src: collectd.ubuntu14.conf.j2
     dest: /etc/collectd/collectd.conf
     owner: root
     group: root
@@ -39,3 +39,19 @@
     group: root
     mode: 0644
   notify: restart collectd
+
+# system service
+- name: minemeld init
+  template:
+    src: minemeld.init.j2
+    dest: /etc/init.d/minemeld
+    owner: root
+    group: root
+    mode: 0744
+- name: set minemeld service priorities
+  command: update-rc.d minemeld defaults 99 10
+- name: minemeld service
+  service:
+    name: minemeld
+    enabled: yes
+    state: started

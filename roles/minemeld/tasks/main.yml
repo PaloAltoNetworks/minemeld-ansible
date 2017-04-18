@@ -1,0 +1,27 @@
+# from http://serverfault.com/questions/587727/how-to-unify-package-installation-tasks-in-ansible
+- include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+
+# include distribution tasks
+- name: include pre-task based on distribution
+  include: "roles/minemeld/tasks/{{distribution_pre_task}}.yml"
+  when: distribution_pre_task is defined
+
+- include: structure.yml
+- include: prototypes.yml
+- include: core.yml
+- include: webui.yml
+
+# set permissions after install
+- name: minemeld directory permissions
+  file: path="{{main_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode="{{file_permissions}}"
+
+# include distribution tasks
+- name: include post-task based on distribution
+  include: "roles/minemeld/tasks/{{distribution_post_task}}.yml"
+  when: distribution_post_task is defined
+
+- debug: msg="Remember to add your user to the minemeld group"

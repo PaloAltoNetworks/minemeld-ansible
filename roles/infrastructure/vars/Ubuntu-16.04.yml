@@ -1,0 +1,12 @@
+# packages for the servers
+infrastructure_packages:
+  - rabbitmq-server
+  - redis-server
+  - collectd-core
+  - nginx
+
+# services
+rabbitmq_server_service: rabbitmq-server
+redis_server_service: redis-server
+collectd_service: collectd
+nginx_service: nginx
