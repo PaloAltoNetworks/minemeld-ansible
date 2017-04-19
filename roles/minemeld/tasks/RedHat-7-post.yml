@@ -1,0 +1,64 @@
+- name: enable nginx connections to upstream
+  command: setsebool -P httpd_can_network_connect 1
+- name: nginx certificate
+  copy:
+    force: no
+    dest: /etc/nginx/minemeld.cer
+    src: minemeld.cer
+    mode: 0644
+  notify: restart nginx
+- name: nginx private key
+  copy:
+    force: no
+    dest: /etc/nginx/minemeld.pem
+    src: minemeld.pem
+    mode: 0600
+  notify: restart nginx
+- name: nginx config
+  template:
+    src: minemeld-web.nginx.j2
+    dest: /etc/nginx/conf.d/minemeld-web.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+- name: copy collectd selinux policy file
+  copy:
+    src: mmcollectd.pp
+    dest: /tmp/mmcollectd.pp
+    owner: root
+    group: root
+    mode: 0600
+- name: load selinux collectd policy
+  command: semodule -i /tmp/mmcollectd.pp
+- name: collectd config
+  template:
+    src: collectd.centos7.conf.j2
+    dest: /etc/collectd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart collectd
+- name: collectd types
+  template:
+    src: minemeld_types.db.j2
+    dest: /usr/share/minemeld_types.db
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart collectd
+
+# system service
+- name: minemeld systemd
+  template:
+    src: minemeld.centos7.systemd.j2
+    dest: /etc/systemd/system/minemeld.service
+    owner: root
+    group: root
+    mode: 0644
+- name: minemeld service
+  systemd:
+    name: minemeld.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
