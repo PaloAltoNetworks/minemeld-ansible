@@ -4,6 +4,7 @@
     state: present
 - name: enable RedHat RHEL 7 Optional repo
   command: yum-config-manager --enable rhui-REGION-rhel-server-optional
+  ignore_errors: yes
 - name: install erlang
   yum:
     name: https://github.com/rabbitmq/erlang-rpm/releases/download/v19.3.1/erlang-19.3.1-1.el7.centos.x86_64.rpm
