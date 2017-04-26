@@ -44,9 +44,9 @@ you can edit the corresponding variables in ``local.yml`` file to specify the UR
     $ ansible-playbook -K -i 127.0.0.1, local.yml
     $ usermod -a -G minemeld <your user> # add your user to minemeld group, useful for development
 
-## Howto on CentOS 7
+## Howto on CentOS 7/RHEL 7
 
-**Support for CentOS 7 is still experimental**
+**Support for CentOS 7 and RHEL 7 is still experimental**
 
     $ sudo yum install -y wget git gcc python-devel libffi-devel openssl-devel
     $ wget https://bootstrap.pypa.io/get-pip.py

@@ -1,0 +1,19 @@
+- name: enable epel
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+- name: enable RedHat RHEL 7 Optional repo (AWS)
+  command: yum-config-manager --enable rhui-REGION-rhel-server-optional
+  ignore_errors: yes
+- name: enable RedHat RHEL 7 Optional repo
+  command: yum-config-manager --enable rhel-7-server-optional-rpms
+  ignore_errors: yes
+- name: install erlang
+  yum:
+    name: https://github.com/rabbitmq/erlang-rpm/releases/download/v19.3.1/erlang-19.3.1-1.el7.centos.x86_64.rpm
+    state: present
+- name: install rabbitmq
+  yum:
+    name: https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server-3.6.9-1.el7.noarch.rpm
+    state: present
+
