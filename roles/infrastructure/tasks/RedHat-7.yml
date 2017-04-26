@@ -2,8 +2,11 @@
   yum:
     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     state: present
-- name: enable RedHat RHEL 7 Optional repo
+- name: enable RedHat RHEL 7 Optional repo (AWS)
   command: yum-config-manager --enable rhui-REGION-rhel-server-optional
+  ignore_errors: yes
+- name: enable RedHat RHEL 7 Optional repo
+  command: yum-config-manager --enable rhel-7-server-optional-rpms
   ignore_errors: yes
 - name: install erlang
   yum:
