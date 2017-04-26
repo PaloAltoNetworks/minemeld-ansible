@@ -1,0 +1,14 @@
+# packages for the servers
+infrastructure_packages:
+  - redis
+  - collectd
+  - collectd-rrdtool
+  - nginx
+
+infrastructure_include: RedHat-7
+
+# services
+rabbitmq_server_service: rabbitmq-server
+redis_server_service: redis
+collectd_service: collectd
+nginx_service: nginx

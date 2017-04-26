@@ -1,0 +1,14 @@
+# packages for minemeld
+structure_packages:
+  - p7zip
+  - p7zip-plugins
+  - bzip2
+  - git
+  - gcc-c++
+  - leveldb-devel
+  - rrdtool-devel
+  - libxslt-devel
+  - c-ares-devel
+  - snappy-devel
+
+distribution_post_task: RedHat-7-post
