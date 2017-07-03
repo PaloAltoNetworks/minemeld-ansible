@@ -1,0 +1,9 @@
+- name: enable backports
+  apt_repository:
+    repo: deb http://http.debian.net/debian wheezy-backports main
+    state: present
+- name: install redis-server from backports
+  apt:
+    name: redis-server
+    default_release: wheezy-backports
+    state: present
