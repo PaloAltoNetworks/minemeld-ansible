@@ -31,6 +31,14 @@
   command: "{{venv_directory}}/bin/mm-extensions-freeze {{library_directory}} {{library_directory}}/freeze.txt"
 - name: create constraints file
   shell: "{{venv_directory}}/bin/pip freeze | grep -v minemeld-core > {{library_directory}}/constraints.txt"
+- name: create config file
+  command: "touch {{certs_directory}}/cacert-merge-config.yml"
+  args:
+    creates: "{{certs_directory}}/cacert-merge-config.yml"
+- name: create CA bundle
+  shell: "{{venv_directory}}/bin/mm-cacert-merge --config {{certs_directory}}/cacert-merge-config.yml --dst {{certs_directory}}/bundle.crt {{local_ca_directory}}"
+  args:
+      creates: "{{certs_directory}}/bundle.crt"
 
 # services configs
 - name: minemeld-engine config

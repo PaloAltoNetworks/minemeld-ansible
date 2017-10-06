@@ -24,6 +24,10 @@
   file: state=directory path="{{trace_directory}}" owner=minemeld group="minemeld" mode=0775
 - name: library directory
   file: state=directory path="{{library_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: certs directory
+  file: state=directory path="{{certs_directory}}" owner=minemeld group="minemeld" mode=0775
+- name: local certs directory
+  file: state=directory path="{{local_ca_directory}}" owner=minemeld group="minemeld" mode=0775
 - name: prototypes local directory
   file: state=directory path="{{ prototypes_local_directory }}" owner=minemeld group="minemeld" mode=0775
 - name: supervisor config directory

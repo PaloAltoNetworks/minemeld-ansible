@@ -16,6 +16,13 @@ To install the latest stable release you can:
 If you have forked minemeld-core, minemeld-webui or minemeld-node-prototypes repos and you want to use the forks for development,
 you can edit the corresponding variables in ``local.yml`` file to specify the URL of a fork of the main MineMeld repos.
 
+## Disable Send-a-suggestion check
+
+Starting from MineMeld 0.9.43b1, MineMeld instances use an API call over HTTPS to check if they can reach the Send-A-Suggestion API endpoint.
+The API sends the UUID4 of the MineMeld installation and the running version of MineMeld. If you want to disable it just add this line in the file 20-local.yml:
+
+    SNS_ENABLED: false
+
 ## Howto on Ubuntu 14.04
 
     $ sudo apt-get update
