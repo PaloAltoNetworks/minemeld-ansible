@@ -15,7 +15,7 @@ ExecStop={{venv_directory}}/bin/supervisord -c {{supervisor_directory}}/config/s
 ExecStopPost=/bin/rm -f /var/run/minemeld/minemeld.pid
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=process
-TimeoutStopSec=30
+TimeoutStopSec=610
 
 [Install]
 WantedBy=multi-user.target
