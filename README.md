@@ -27,7 +27,7 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
 
     $ sudo apt-get update
     $ sudo apt-get upgrade # optional
-    $ sudo apt-get install -y gcc git python2.7-dev libffi-dev libssl-dev
+    $ sudo apt-get install -y gcc git python2.7-dev libffi-dev libssl-dev make
     $ wget https://bootstrap.pypa.io/get-pip.py
     $ sudo -H python get-pip.py
     $ sudo -H pip install ansible
@@ -42,7 +42,7 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
 
     $ sudo apt-get update
     $ sudo apt-get upgrade # optional
-    $ sudo apt-get install -y gcc git python-minimal python2.7-dev libffi-dev libssl-dev
+    $ sudo apt-get install -y gcc git python-minimal python2.7-dev libffi-dev libssl-dev make
     $ wget https://bootstrap.pypa.io/get-pip.py
     $ sudo -H python get-pip.py
     $ sudo -H pip install ansible
