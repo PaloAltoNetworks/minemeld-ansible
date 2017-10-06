@@ -9,7 +9,7 @@
 - name: nodeenv
   pip: name=nodeenv
 - name: minemeld nodeenv
-  command: nodeenv -v -n 0.12.2 --npm=2.14.7 --prebuilt -c "{{www_venv_directory}}" creates="{{www_venv_directory}}"
+  command: nodeenv -v -n 4.2.6 --npm=2.14.7 --prebuilt -c "{{www_venv_directory}}" creates="{{www_venv_directory}}"
 - name: npm install
   command: npm install chdir="{{webui_repo_directory}}"
   environment:
