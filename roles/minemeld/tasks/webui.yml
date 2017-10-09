@@ -5,7 +5,7 @@
     clone: yes
     dest: "{{webui_repo_directory}}"
     version: "{{minemeld_version}}"
-- name: git configurating
+- name: reconfiguring git to use https
   command: git config --global url."https://github.com".insteadOf git@github.com
 - name: nodeenv
   pip: name=nodeenv
