@@ -2,7 +2,6 @@
   command: "{{ venv_directory }}/bin/python setup.py develop"
   args:
     chdir: "{{ engine_directory }}/core"
-  sudo: no
 - name: restart collectd
   service: name=collectd state=restarted
 - name: stop rabbitmq-server

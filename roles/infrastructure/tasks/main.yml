@@ -12,7 +12,7 @@
 
 # include distribution tasks
 - name: include task based on distribution
-  include: "roles/infrastructure/tasks/{{infrastructure_include}}.yml"
+  include_tasks: "roles/infrastructure/tasks/{{infrastructure_include}}.yml"
   when: infrastructure_include is defined
 
 # install required services
