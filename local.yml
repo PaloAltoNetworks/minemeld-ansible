@@ -2,7 +2,6 @@
   hosts: 127.0.0.1
   connection: local
   become: true
-  become_method: sudo
 
   vars:
     minemeld_version: develop
@@ -13,7 +12,7 @@
   # remove comment to set custom repositories
   # core_repo: "https://github.com/jtschichold/minemeld-core.git"
   # prototype_repo: "https://github.com/jtschichold/minemeld-node-prototypes.git"
-  # webui_repo: "https://github/jtschichold/minemeld-webui.git"
+  # webui_repo: "https://github.com/jtschichold/minemeld-webui.git"
 
   roles:
   - infrastructure

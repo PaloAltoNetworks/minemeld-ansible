@@ -32,9 +32,7 @@
 - name: create constraints file
   shell: "{{venv_directory}}/bin/pip freeze | grep -v minemeld-core > {{library_directory}}/constraints.txt"
 - name: create config file
-  command: "touch {{certs_directory}}/cacert-merge-config.yml"
-  args:
-    creates: "{{certs_directory}}/cacert-merge-config.yml"
+  file: path="{{certs_directory}}/cacert-merge-config.yml" state=touch owner=minemeld group=minemeld mode="{{file_permissions}}"
 - name: create CA bundle
   shell: "{{venv_directory}}/bin/mm-cacert-merge --config {{certs_directory}}/cacert-merge-config.yml --dst {{certs_directory}}/bundle.crt {{local_ca_directory}}"
   args:
