@@ -1,0 +1,56 @@
+- name: nginx certificate
+  copy:
+    force: no
+    dest: /etc/nginx/minemeld.cer
+    src: minemeld.cer
+    mode: 0644
+  notify: restart nginx
+- name: nginx private key
+  copy:
+    force: no
+    dest: /etc/nginx/minemeld.pem
+    src: minemeld.pem
+    mode: 0600
+  notify: restart nginx
+- name: nginx config
+  template:
+    src: minemeld-web.nginx.j2
+    dest: /etc/nginx/sites-enabled/minemeld-web
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+- name: delete nginx default
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: restart nginx
+- name: collectd config
+  template:
+    src: collectd.ubuntu14.conf.j2
+    dest: /etc/collectd/collectd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart collectd
+- name: collectd types
+  template:
+    src: minemeld_types.db.j2
+    dest: /etc/collectd/minemeld_types.db
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart collectd
+
+# system service
+- name: minemeld systemd
+  template:
+    src: minemeld.ubuntu16.systemd.j2
+    dest: /etc/systemd/system/minemeld.service
+    owner: root
+    group: root
+    mode: 0644
+- name: minemeld service
+  systemd:
+    name: minemeld.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
