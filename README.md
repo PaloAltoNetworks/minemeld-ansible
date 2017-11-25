@@ -64,9 +64,9 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
     $ ansible-playbook -K -i 127.0.0.1, local.yml
     $ usermod -a -G minemeld <your user> # add your user to minemeld group, useful for development
     
-## Howto on Debian 7 (Wheezy)
+## Howto on Debian 7/9 (Wheezy/Stretch)
 
-**Support for Debian 7 is still experimental**
+**Support for Debian 7/9 is still experimental**
 
     $ sudo apt-get update
     $ sudo apt-get upgrade # optional
