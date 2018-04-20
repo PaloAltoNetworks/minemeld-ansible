@@ -13,6 +13,10 @@
   command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
 - name: virtualenv permissions
   file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode="{{file_permissions}}"
+- name: downgrade pip
+  pip:
+    virtualenv: "{{venv_directory}}"
+    name: "pip<10.0"
 - name: requirements
   pip:
     virtualenv: "{{venv_directory}}"
