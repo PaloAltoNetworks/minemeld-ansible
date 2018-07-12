@@ -4,6 +4,7 @@ infrastructure_packages:
   - collectd
   - collectd-rrdtool
   - nginx
+  - rabbitmq-server
 
 infrastructure_include: CentOS-7
 
