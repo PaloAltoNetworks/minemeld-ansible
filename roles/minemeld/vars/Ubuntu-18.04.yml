@@ -2,7 +2,7 @@
 structure_packages:
   - p7zip-full
   - git
-  - gpp
+  - g++
   - libleveldb-dev
   - librrd-dev
   - libxslt1-dev
