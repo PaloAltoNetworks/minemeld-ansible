@@ -26,7 +26,7 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
 ## Howto on Ubuntu 14.04
 
     $ sudo apt-get update
-    $ sudo apt-get upgrade # optional
+    $ sudo apt-get upgrade
     $ sudo apt-get install -y gcc git python2.7-dev libffi-dev libssl-dev make
     $ wget https://bootstrap.pypa.io/get-pip.py
     $ sudo -H python get-pip.py
@@ -41,7 +41,7 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
 **Support for Ubuntu 16.04 is still experimental**
 
     $ sudo apt-get update
-    $ sudo apt-get upgrade # optional
+    $ sudo apt-get upgrade
     $ sudo apt-get install -y gcc git python-minimal python2.7-dev libffi-dev libssl-dev make
     $ wget https://bootstrap.pypa.io/get-pip.py
     $ sudo -H python get-pip.py
