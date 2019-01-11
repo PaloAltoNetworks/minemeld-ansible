@@ -1,0 +1,12 @@
+# packages for minemeld
+structure_packages:
+  - p7zip-full
+  - git
+  - g++
+  - libleveldb-dev
+  - librrd-dev
+  - libxslt1-dev
+  - libc-ares-dev
+  - libsnappy-dev
+
+distribution_post_task: Ubuntu-18.04-post
