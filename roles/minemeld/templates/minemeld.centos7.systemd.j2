@@ -1,6 +1,7 @@
 [Unit]
 Description=Process Monitoring and Control Daemon
 Requires=network.target redis.service rabbitmq-server.service collectd.service
+After=network.target redis.service rabbitmq-server.service collectd.service
 
 [Service]
 Type=forking
