@@ -1,4 +1,30 @@
-- name: enable epel
-  yum:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    state: present
+- name: Check for custom python
+  stat:
+    path: /usr/local/bin/python2.7
+  register: python_result
+- name: Extract Python 2.7.15
+  unarchive:
+    src: /tmp/Python-2.7.15.tgz
+    dest: /tmp/Python-2.7.15
+    remote_src: yes
+    validate_certs: yes
+  when: python_result.stat.exists == False
+- name: Configure Python 2.7.15
+  shell: ./configure --prefix=/usr/local
+  args:
+    chdir: /tmp/Python-2.7.15
+  when: python_result.stat.exists == False
+- name: Install Python 2.7.15
+  shell: make && make altinstall
+  args:
+    chdir: /tmp/Python-2.7.15
+  when: python_result.stat.exists == False
+- name: Download pip
+  get_url:
+    url: https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
+    dest: /tmp/get-pip.py
+    validate_certs: yes
+  when: python_result.stat.exists == False
+- name: Install pip
+  shell: /usr/local/bin/python2.7 /tmp/get-pip.py
+  when: python_result.stat.exists == False
