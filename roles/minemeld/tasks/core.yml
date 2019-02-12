@@ -4,13 +4,14 @@
     repo: "{{core_repo}}"
     clone: yes
     dest: "{{engine_directory}}/core"
-    version: "{{minemeld_version}}"
+    version: "{{minemeld_core_version}}"
 
 # creates the virtualenv in the engine/current directory and install reqs
 - name: virtualenv
-  pip: name=virtualenv
+  pip:
+    name: virtualenv
 - name: minemeld virtualenv
-  command: virtualenv "{{venv_directory}}" -p python2.7 creates="{{venv_directory}}"
+  command: virtualenv "{{venv_directory}}" -p "{{python_executable}}" creates="{{venv_directory}}"
 - name: virtualenv permissions
   file: path="{{venv_directory}}" state=directory recurse=yes owner=minemeld group=minemeld mode="{{file_permissions}}"
 - name: requirements

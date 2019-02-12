@@ -12,3 +12,5 @@ structure_packages:
   - snappy-devel
 
 distribution_post_task: CentOS-7-post
+
+python_executable: /usr/local/bin/python2.7

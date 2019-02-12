@@ -4,7 +4,9 @@
   become: true
 
   vars:
-    minemeld_version: develop
+    minemeld_core_version: develop
+    minemeld_webui_version: develop
+    minemeld_prototypes_version: develop
     file_permissions: 'u=rwX,g=rwX,o=rX'
   # uncomment the following to install stable
   # minemeld_version: master
