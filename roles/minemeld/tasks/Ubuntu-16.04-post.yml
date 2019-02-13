@@ -26,11 +26,16 @@
 - name: redis config
   template:
     src: redis.conf.j2
-    dest: /etc/redis.conf
+    dest: /etc/redis/redis.conf
     owner: root
     group: root
     mode: 0644
   notify: restart redis
+- name: sysctl redis optimization
+  sysctl:
+    name: vm.overcommit_memory
+    value: 1
+    state: present
 - name: collectd config
   template:
     src: collectd.ubuntu14.conf.j2
