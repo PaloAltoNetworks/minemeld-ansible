@@ -22,7 +22,7 @@
 - name: restart nginx
   service: name=nginx state=restarted
 - name: restart redis
-  service: name=redis state=restarted
+  service: name="{{redis_server_service}}" state=restarted
 - name: restart minemeld-engine
   supervisorctl: name=minemeld-engine state=restarted
 - name: restart minemeld-web

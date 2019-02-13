@@ -68,7 +68,7 @@
 - name: minemeld systemd
   template:
     src: minemeld.centos7.systemd.j2
-    dest: /etc/systemd/system/minemeld.service
+    dest: /usr/lib/systemd//system/minemeld.service
     owner: root
     group: root
     mode: 0644
