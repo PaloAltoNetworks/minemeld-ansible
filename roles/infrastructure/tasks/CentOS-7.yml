@@ -23,16 +23,3 @@
   args:
     chdir: /tmp/Python-2.7.15
   when: python_result.stat.exists == False
-- name: Check for custom python
-  stat:
-    path: /usr/local/bin/pip
-  register: pip_result
-- name: Download pip
-  get_url:
-    url: https://bootstrap.pypa.io/get-pip.py
-    dest: /tmp/get-pip.py
-    validate_certs: yes
-  when: pip_result.stat.exists == False
-- name: Install pip
-  shell: /usr/local/bin/python2.7 /tmp/get-pip.py
-  when: pip_result.stat.exists == False

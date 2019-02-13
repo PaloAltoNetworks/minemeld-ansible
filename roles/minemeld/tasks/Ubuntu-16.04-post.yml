@@ -23,6 +23,14 @@
 - name: delete nginx default
   file: path=/etc/nginx/sites-enabled/default state=absent
   notify: restart nginx
+- name: redis config
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/minemeld-web
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart redis
 - name: collectd config
   template:
     src: collectd.ubuntu14.conf.j2

@@ -25,6 +25,8 @@
   supervisorctl: name=minemeld-web state=started
 - name: restart nginx
   service: name=nginx state=restarted
+- name: restart redis
+  service: name=redis-server state=restarted
 - name: restart minemeld-engine
   supervisorctl: name=minemeld-engine state=restarted
 - name: restart minemeld-web
