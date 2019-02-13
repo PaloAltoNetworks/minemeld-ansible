@@ -3,6 +3,8 @@
   user:
     name: minemeld
     group: minemeld
+    groups:
+        - redis
     home: "{{data_directory}}"
     createhome: no
     shell: "/usr/sbin/nologin"
