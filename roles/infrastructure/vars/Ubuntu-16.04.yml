@@ -5,6 +5,6 @@ infrastructure_packages:
   - nginx
 
 # services
-redis_server_service: redis-server
+redis_server_service: redis
 collectd_service: collectd
 nginx_service: nginx

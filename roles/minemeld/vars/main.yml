@@ -17,3 +17,4 @@ supervisor_directory: "{{main_directory}}/supervisor"
 engine_directory: "{{main_directory}}/engine"
 
 python_executable: /usr/bin/python2.7
+redis_server_service: redis
