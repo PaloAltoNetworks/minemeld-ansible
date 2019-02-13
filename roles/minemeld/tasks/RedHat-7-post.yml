@@ -30,6 +30,11 @@
     group: root
     mode: 0644
   notify: restart redis
+- name: sysctl redis optimization
+  sysctl:
+    name: vm.overcommit_memory
+    value: 1
+    state: present
 - name: copy collectd selinux policy file
   copy:
     src: mmcollectd.pp
