@@ -26,7 +26,7 @@
 - name: redis config
   template:
     src: redis.conf.j2
-    dest: /etc/redis/minemeld-web
+    dest: /etc/redis.conf
     owner: root
     group: root
     mode: 0644
