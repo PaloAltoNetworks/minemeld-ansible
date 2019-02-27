@@ -25,8 +25,6 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
 
 ## Howto on Ubuntu 16.04
 
-**Support for Ubuntu 16.04 is still experimental**
-
     $ sudo apt-get update
     $ sudo apt-get upgrade
     $ sudo apt-get install -y gcc git python-minimal python2.7-dev libffi-dev libssl-dev make
