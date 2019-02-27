@@ -4,8 +4,6 @@
     chdir: "{{ engine_directory }}/core"
 - name: restart collectd
   service: name=collectd state=restarted
-- name: stop rabbitmq-server
-  service: name=rabbitmq-server state=stopped
 - name: stop minemeld-engine
   supervisorctl: name=minemeld-engine state=stopped
 - name: stop minemeld-web
@@ -14,8 +12,6 @@
   command: git clean -f -d -x
   args:
     chdir: "{{ engine_directory }}/core"
-- name: start rabbitmq-server
-  service: name=rabbitmq-server state=started
 - name: restart supervisor
   service: name=supervisor state=restarted
   ignore_errors: yes
@@ -25,6 +21,8 @@
   supervisorctl: name=minemeld-web state=started
 - name: restart nginx
   service: name=nginx state=restarted
+- name: restart redis
+  service: name="{{redis_server_service}}" state=restarted
 - name: restart minemeld-engine
   supervisorctl: name=minemeld-engine state=restarted
 - name: restart minemeld-web

@@ -3,7 +3,7 @@
     repo: "{{prototype_repo}}"
     clone: yes
     dest: "{{prototypes_repo_directory}}/minemeld-node-prototypes"
-    version: "{{minemeld_version}}"
+    version: "{{minemeld_prototypes_version}}"
 - name: minemeld-node-prototypes current link
   file:
     src: "{{prototypes_repo_directory}}/minemeld-node-prototypes/prototypes"

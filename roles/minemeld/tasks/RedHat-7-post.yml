@@ -22,6 +22,19 @@
     group: root
     mode: 0644
   notify: restart nginx
+- name: redis config
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart redis
+- name: sysctl redis optimization
+  sysctl:
+    name: vm.overcommit_memory
+    value: 1
+    state: present
 - name: copy collectd selinux policy file
   copy:
     src: mmcollectd.pp
@@ -52,7 +65,7 @@
 - name: minemeld systemd
   template:
     src: minemeld.centos7.systemd.j2
-    dest: /etc/systemd/system/minemeld.service
+    dest: /lib/systemd/system/minemeld.service
     owner: root
     group: root
     mode: 0644

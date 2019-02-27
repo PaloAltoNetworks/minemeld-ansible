@@ -22,8 +22,6 @@
   when: infrastructure_packages is defined
 
 # start services
-- name: start rabbitmq-server
-  service: name="{{rabbitmq_server_service}}" state=started enabled=yes
 - name: start redis-server
   service: name="{{redis_server_service}}" state=started enabled=yes
 - name: start collectd

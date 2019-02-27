@@ -23,6 +23,19 @@
 - name: delete nginx default
   file: path=/etc/nginx/sites-enabled/default state=absent
   notify: restart nginx
+- name: redis config
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart redis
+- name: sysctl redis optimization
+  sysctl:
+    name: vm.overcommit_memory
+    value: 1
+    state: present
 - name: collectd config
   template:
     src: collectd.ubuntu14.conf.j2
@@ -44,7 +57,7 @@
 - name: minemeld systemd
   template:
     src: minemeld.ubuntu16.systemd.j2
-    dest: /etc/systemd/system/minemeld.service
+    dest: /lib/systemd/system/minemeld.service
     owner: root
     group: root
     mode: 0644

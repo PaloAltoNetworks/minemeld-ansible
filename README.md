@@ -23,22 +23,7 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
 
     SNS_ENABLED: false
 
-## Howto on Ubuntu 14.04
-
-    $ sudo apt-get update
-    $ sudo apt-get upgrade
-    $ sudo apt-get install -y gcc git python2.7-dev libffi-dev libssl-dev make
-    $ wget https://bootstrap.pypa.io/get-pip.py
-    $ sudo -H python get-pip.py
-    $ sudo -H pip install ansible
-    $ git clone https://github.com/PaloAltoNetworks/minemeld-ansible.git
-    $ cd minemeld-ansible
-    $ ansible-playbook -K -i 127.0.0.1, local.yml
-    $ usermod -a -G minemeld <your user> # add your user to minemeld group, useful for development
-
 ## Howto on Ubuntu 16.04
-
-**Support for Ubuntu 16.04 is still experimental**
 
     $ sudo apt-get update
     $ sudo apt-get upgrade
@@ -51,11 +36,26 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
     $ ansible-playbook -K -i 127.0.0.1, local.yml
     $ usermod -a -G minemeld <your user> # add your user to minemeld group, useful for development
 
+## Howto on Ubuntu 18.04
+
+**Support for Ubuntu 16.04 is still experimental**
+
+    $ sudo apt update
+    $ sudo apt upgrade
+    $ sudo apt install -y gcc git python-minimal python2.7-dev libffi-dev libssl-dev make
+    $ wget https://bootstrap.pypa.io/get-pip.py
+    $ sudo -H python get-pip.py
+    $ sudo -H pip install ansible
+    $ git clone https://github.com/PaloAltoNetworks/minemeld-ansible.git
+    $ cd minemeld-ansible
+    $ ansible-playbook -K -i 127.0.0.1, local.yml
+    $ usermod -a -G minemeld <your user> # add your user to minemeld group, useful for development
+
 ## Howto on CentOS 7/RHEL 7
 
 **Support for CentOS 7 and RHEL 7 is still experimental**
 
-    $ sudo yum install -y wget git gcc python-devel libffi-devel openssl-devel
+    $ sudo yum install -y wget git gcc python-devel libffi-devel openssl-devel zlib-dev sqlite-devel bzip2-devel
     $ wget https://bootstrap.pypa.io/get-pip.py
     $ sudo -H python get-pip.py
     $ sudo -H pip install ansible
@@ -64,9 +64,9 @@ The API sends the UUID4 of the MineMeld installation and the running version of 
     $ ansible-playbook -K -i 127.0.0.1, local.yml
     $ usermod -a -G minemeld <your user> # add your user to minemeld group, useful for development
     
-## Howto on Debian 7/9 (Wheezy/Stretch)
+## Howto on Debian 9 (Stretch)
 
-**Support for Debian 7/9 is still experimental**
+**Support for Debian 9 is still experimental**
 
     $ sudo apt-get update
     $ sudo apt-get upgrade # optional
