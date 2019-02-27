@@ -4,7 +4,6 @@ infrastructure_packages:
   - collectd
   - collectd-rrdtool
   - nginx
-  - rabbitmq-server
 
 infrastructure_include: RedHat-7
 
