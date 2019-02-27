@@ -9,7 +9,6 @@ infrastructure_packages:
 infrastructure_include: CentOS-7
 
 # services
-rabbitmq_server_service: rabbitmq-server
 redis_server_service: redis
 collectd_service: collectd
 nginx_service: nginx
