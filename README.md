@@ -1,3 +1,7 @@
+# WARNING!!
+
+This will install 0.9.60+ from `develop` branch, if you want to install `master` use the Ansible playbook from the `trusty` branch.
+
 # minemeld-ansible
 
 Ansible playbook for installing MineMeld on a Linux instance directly from the git repos. This is useful for development or
