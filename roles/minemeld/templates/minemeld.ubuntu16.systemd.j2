@@ -5,6 +5,7 @@ After=network.target redis.service collectd.service
 
 [Service]
 Type=forking
+LimitNOFILE=65535
 PIDFile=/var/run/minemeld/minemeld.pid
 ExecStartPre=-/bin/mkdir /var/run/minemeld
 ExecStartPre=/bin/chown -R minemeld:minemeld /var/run/minemeld/
