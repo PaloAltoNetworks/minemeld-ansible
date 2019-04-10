@@ -109,6 +109,32 @@ Check if all the MineMeld services are up and running:
     minemeld-traced                  RUNNING   pid 37584, uptime 1:10:12
     minemeld-web                     RUNNING   pid 37585, uptime 1:10:12
 
+## Upgrade MineMeld
+
+``minemeld-ansible`` can be used to upgrade MineMeld.  The steps are:
+
+1. Stop MineMeld
+1. Remove the following directories:
+   - ``/opt/minemeld/engine``
+   - ``/opt/minemeld/prototypes``
+   - ``/opt/minemeld/www``
+1. Update ``minemeld-ansible``
+1. Run the Ansible playbook
+1. Verify MineMeld status
+
+For example:
+
+    $ sudo service minemeld stop
+    $ cd /opt/minemeld/
+    $ rm -rf engine prototypes www
+
+    Then change to the directory where you performed the "git clone" above.
+
+    $ cd minemeld-ansible
+    $ git pull
+    $ ansible-playbook -K -i 127.0.0.1, local.yml
+    $ sudo -u minemeld /opt/minemeld/engine/current/bin/supervisorctl -c /opt/minemeld/supervisor/config/supervisord.conf status
+
 ## Porting to a new distribution
 
 Distribution specific tasks and variables are isolated in specific
