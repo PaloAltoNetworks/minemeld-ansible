@@ -8,5 +8,7 @@ structure_packages:
   - libxslt1-dev
   - libc-ares-dev
   - libsnappy-dev
+  - python-pip
+  - virtualenv
 
 distribution_post_task: Ubuntu-16.04-post
