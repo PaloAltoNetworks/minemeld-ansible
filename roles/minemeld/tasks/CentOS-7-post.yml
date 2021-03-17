@@ -70,6 +70,15 @@
   command: firewall-cmd --zone=public --permanent --add-service=http
 
 # system service
+- name: minemeld tmpfiles
+  template:
+    src: minemeld.tmpfiles.conf.j2
+    dest: /usr/lib/tmpfiles.d/minemeld.conf
+    owner: root
+    group: root
+    mode: 0644
+- name: minemeld temp file creation
+  command: /usr/bin/systemd-tmpfiles --create minemeld
 - name: minemeld systemd
   template:
     src: minemeld.centos7.systemd.j2
