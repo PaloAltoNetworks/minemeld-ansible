@@ -54,6 +54,15 @@
   notify: restart collectd
 
 # system service
+- name: minemeld tmpfiles
+  template:
+    src: minemeld.tmpfiles.conf.j2
+    dest: /usr/lib/tmpfiles.d/minemeld.conf
+    owner: root
+    group: root
+    mode: 0644
+- name: minemeld temp file creation
+  command: /usr/bin/systemd-tmpfiles --create minemeld.conf
 - name: minemeld systemd
   template:
     src: minemeld.ubuntu16.systemd.j2
