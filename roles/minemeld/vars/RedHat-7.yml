@@ -10,6 +10,8 @@ structure_packages:
   - libxslt-devel
   - c-ares-devel
   - snappy-devel
+  - python-devel
+  - Cython
 
 distribution_post_task: RedHat-7-post
 
