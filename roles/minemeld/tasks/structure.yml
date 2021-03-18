@@ -36,8 +36,6 @@
   file: state=directory path="{{ supervisor_directory }}/config/conf.d" owner=minemeld group="minemeld" mode=0775
 - name: log directory
   file: state=directory path="{{ main_directory }}/log" owner=minemeld group="minemeld" mode=0775
-- name: PID directory
-  file: state=directory path="/var/run/minemeld" owner=minemeld group="minemeld" mode=0775
 - name: www directory
   file: state=directory path="{{www_directory}}" owner=minemeld group="minemeld" mode=0775
 
