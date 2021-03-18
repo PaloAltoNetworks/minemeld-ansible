@@ -10,7 +10,9 @@ structure_packages:
   - libxslt-devel
   - c-ares-devel
   - snappy-devel
+  - python-devel
+  - Cython
 
 distribution_post_task: CentOS-7-post
 
-python_executable: /usr/local/bin/python2.7
+#python_executable: /usr/local/bin/python2.7
