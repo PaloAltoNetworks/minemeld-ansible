@@ -63,6 +63,8 @@
     mode: 0644
 - name: minemeld temp file creation
   command: /usr/bin/systemd-tmpfiles --create minemeld.conf
+  args:
+    creates: /var/run/minemeld
 - name: minemeld systemd
   template:
     src: minemeld.ubuntu16.systemd.j2
